@@ -17,3 +17,17 @@ SQL의 VALUES문에 사용할 수 있는 형태로 객체의 값들을 반환해
                 + status + "'";
     }
 ```
+
+
+# How can i use database bootstrap script?
+
+1. .env 파일을 생성한다.
+2. .env 파일을 아래 양식에 맞춰 작성한다.
+```
+DB_ID=아이디를_입력해주세요
+DB_PASSWORD=비밀번호를_입력해주세요
+```
+3. terminal 환경에서 ./bootstrap-database.sh를 실행한다. (만약 실행 할 수 없는 경우 `chmod +x ./bootstrap-database.sh`를 입력해준다.)
+    * docker, local 환경을 지원한다.
+    * ./sql/initialization.sql을 기반으로 database를 만드니 수정할 부분이 있다면 해당 sql을 수정해주면 된다.
+    * database 이름은 기존 DB 충돌을 방지하기 위해 nemne_insurance라는 db를 사용한다. 
