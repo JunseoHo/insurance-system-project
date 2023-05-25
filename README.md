@@ -19,7 +19,7 @@ SQL의 VALUES문에 사용할 수 있는 형태로 객체의 값들을 반환해
 ```
 
 
-# How can i use database bootstrap script?
+# DB 설정하기
 
 1. .env 파일을 생성한다.
 2. .env 파일을 아래 양식에 맞춰 작성한다.
