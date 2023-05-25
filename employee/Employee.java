@@ -1,12 +1,11 @@
 package employee;
 
 import java.io.Serializable;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class Employee implements Serializable {
 
     // ids
+    private Long id;
     private String employeeId;
     // personal info
     private String name;
@@ -15,18 +14,19 @@ public class Employee implements Serializable {
     // insurance info
     private String department;
 
-    public Employee(ResultSet resultSet) {
-        try {
-            setEmployeeId(resultSet.getString("employeeId"));
-            setName(resultSet.getString("name"));
-            setGender(resultSet.getString("gender").equals("M"));
-            setBirth(resultSet.getString("birth"));
-            setDepartment(resultSet.getString("department"));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public Employee(Long id, String employeeId, String name, boolean gender, String birth,
+        String department) {
+        this.id = id;
+        this.employeeId = employeeId;
+        this.name = name;
+        this.gender = gender;
+        this.birth = birth;
+        this.department = department;
     }
 
+    public Long getId() {
+        return id;
+    }
     public String getEmployeeId() {
         return employeeId;
     }

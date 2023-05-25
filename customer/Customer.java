@@ -2,12 +2,11 @@ package customer;
 
 
 import java.io.Serializable;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class Customer implements Serializable {
 
     // ids
+    private Long id;
     private String customerId;
     // personal info
     private String name;
@@ -19,21 +18,23 @@ public class Customer implements Serializable {
     private String familyHistory;
     private String healthExaminationRecord;
 
-    public Customer(ResultSet resultSet) {
-        try {
-            setCustomerId(resultSet.getString("customerId"));
-            setName(resultSet.getString("name"));
-            setGender(resultSet.getString("gender").equals("M"));
-            setBirth(resultSet.getString("birth"));
-            setJob(resultSet.getString("job"));
-            setBankAccount(resultSet.getString("bankAccount"));
-            setFamilyHistory(resultSet.getString("familyhistory"));
-            setHealthExaminationRecord(resultSet.getString("healthExaminationRecord"));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public Customer(Long id, String customerId, String name, boolean gender, String birth,
+        String job,
+        String bankAccount, String familyHistory, String healthExaminationRecord) {
+        this.id = id;
+        this.customerId = customerId;
+        this.name = name;
+        this.gender = gender;
+        this.birth = birth;
+        this.job = job;
+        this.bankAccount = bankAccount;
+        this.familyHistory = familyHistory;
+        this.healthExaminationRecord = healthExaminationRecord;
     }
 
+    public Long getId() {
+        return id;
+    }
     public String getCustomerId() {
         return customerId;
     }

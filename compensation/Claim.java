@@ -10,9 +10,10 @@ import java.sql.SQLException;
 public class Claim implements Serializable {
 
     // ids
+    private Long id;
     private String claimId;
-    private String customerId;
-    private String employeeId;
+    private Long customerId;
+    private Long employeeId;
     // info
     private String date;
     private String type;
@@ -21,39 +22,42 @@ public class Claim implements Serializable {
     // review
     private String report;
     private int compensation;
-    private String reviewer;
+    private Long reviewer;
     private String status;
-
-    public Claim(ResultSet resultSet) {
-        try {
-            setClaimId(resultSet.getString("claimId"));
-            setCustomerId(resultSet.getString("customerId"));
-            setEmployeeId(resultSet.getString("employeeId"));
-            setDate(resultSet.getString("date"));
-            setType(resultSet.getString("type"));
-            setDescription(resultSet.getString("description"));
-            setLocation(resultSet.getString("location"));
-            setReport(resultSet.getString("report"));
-            setCompensation(resultSet.getInt("compensation"));
-            setReviewer(resultSet.getString("reviewer"));
-            setStatus(resultSet.getString("status"));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public Claim(String[] values) {
         this.claimId = values[0];
-        this.customerId = values[1];
-        this.employeeId = values[2];
+        this.customerId = Long.valueOf(values[1]);
+        this.employeeId = Long.valueOf(values[2]);
         this.date = values[3];
         this.type = values[4];
         this.description = values[5];
         this.location = values[6];
         this.report = values[7];
         this.compensation = Integer.parseInt(values[8]);
-        this.reviewer = values[9];
+        this.reviewer = Long.valueOf(values[9]);
         this.status = values[10];
+    }
+
+    public Claim(Long id, String claimId, Long customerId, Long employeeId, String date, String type, String description,
+        String location, String report, int compensation, Long reviewer,
+        String status) {
+        this.id = id;
+        this.claimId = claimId;
+        this.customerId = customerId;
+        this.employeeId = employeeId;
+        this.date = date;
+        this.type = type;
+        this.description = description;
+        this.location = location;
+        this.report = report;
+        this.compensation = compensation;
+        this.reviewer = reviewer;
+        this.status = status;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getClaimId() {
@@ -64,19 +68,19 @@ public class Claim implements Serializable {
         this.claimId = claimId;
     }
 
-    public String getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(String customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 
-    public String getEmployeeId() {
+    public Long getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(String employeeId) {
+    public void setEmployeeId(Long employeeId) {
         this.employeeId = employeeId;
     }
 
@@ -136,11 +140,11 @@ public class Claim implements Serializable {
         this.compensation = compensation;
     }
 
-    public String getReviewer() {
+    public Long getReviewer() {
         return reviewer;
     }
 
-    public void setReviewer(String reviewer) {
+    public void setReviewer(Long reviewer) {
         this.reviewer = reviewer;
     }
 

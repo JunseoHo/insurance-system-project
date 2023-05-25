@@ -37,9 +37,9 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
             Registry registry = LocateRegistry.createRegistry(PORT);
             registry.bind(NAME, new ServerImpl());
             System.out.println("서버가 성공적으로 시작되었습니다.");
-            customerDAO = new CustomerDAO("CustomerDAO");
-            employeeDAO = new EmployeeDAO("EmployeeDAO");
-            claimDAO = new ClaimDAO("ClaimDAO");
+            customerDAO = new CustomerDAO();
+            employeeDAO = new EmployeeDAO();
+            claimDAO = new ClaimDAO();
         } catch (RemoteException | AlreadyBoundException e) {
             e.printStackTrace();
             System.out.println("레지스트리 등록에 실패했습니다.");
@@ -52,12 +52,12 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     @Common
     public Customer getCustomer(String customerId) throws RemoteException {
-        return (Customer) customerDAO.retrieve(customerId);
+        return (Customer) customerDAO.findByCustomerId(customerId);
     }
 
     @Common
     public Employee getEmployee(String employeeId) throws RemoteException {
-        return (Employee) employeeDAO.retrieve(employeeId);
+        return (Employee) employeeDAO.findByEmployeeId(employeeId);
     }
 
     ///////////////////////////////////////////////////////////////////
@@ -74,23 +74,25 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     @Compensation
     public Claim getClaim(String claimId) throws RemoteException {
-        return (Claim) claimDAO.retrieve(claimId);
+        return (Claim) claimDAO.findByClaimId(claimId);
     }
 
     @Compensation
     public List<Claim> getClaims() throws RemoteException {
-        return (List<Claim>) claimDAO.retrieveAll();
+        return (List<Claim>) claimDAO.findByClaimId();
     }
 
     @Compensation
     public boolean updateClaim(Claim claim) throws RemoteException {
-        return claimDAO.update(claim);
+        claimDAO.updateClaim(claim);
+        return true;
     }
 
     @Compensation
     public boolean createClaim(Claim claim) throws RemoteException {
         claim.setEmployeeId("E001"); // temporary code
-        return claimDAO.create(claim);
+        claimDAO.addClaim(claim);
+        return true;
     }
 
 }
