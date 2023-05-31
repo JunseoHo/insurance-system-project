@@ -92,4 +92,4 @@ INSERT INTO EMPLOYEES (birth, department, gender, name, employee_id) values('199
 INSERT INTO EMPLOYEES (birth, department, gender, name, employee_id) values('1980-02-03', 'supporting', False, 'Paul', 'E003');
 INSERT INTO EMPLOYEES (birth, department, gender, name, employee_id) values('1980-02-03', 'supporting', True, 'Emma', 'E004');
 
-INSERT INTO CLAIMS (compensation, customer_id, date, description, employee_id, is_paid, location, report, reviewer, review, claim_id) values('3098345', 1, '2023-05-23', 'none', 1, False, 'seoul_korean', 'https://your-bucket-name.s3.amazonaws.com/randomString/report.docx', 2, 'reviewing', 'CLAIM_ID');
+INSERT INTO CLAIMS (compensation, customer_id, date, description, employee_id, is_paid, location, report, reviewer, status, claim_id) values('3098345', 1, '2023-05-23', 'none', 1, False, 'seoul_korean', 'https://your-bucket-name.s3.amazonaws.com/randomString/report.docx', 2, 'reviewing', 'CLAIM_ID');
