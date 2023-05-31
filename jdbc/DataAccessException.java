@@ -1,5 +1,8 @@
 package jdbc;
 
+import annotation.DAO;
+
+@DAO
 public class DataAccessException extends RuntimeException {
 
 	public DataAccessException() {

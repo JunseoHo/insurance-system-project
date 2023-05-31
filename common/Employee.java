@@ -1,7 +1,10 @@
-package employee;
+package common;
+
+import annotation.Common;
 
 import java.io.Serializable;
 
+@Common
 public class Employee implements Serializable {
 
     // ids

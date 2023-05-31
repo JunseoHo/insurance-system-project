@@ -12,8 +12,8 @@ public class Claim implements Serializable {
     // ids
     private Long id;
     private String claimId;
-    private Long customerId;
-    private Long employeeId;
+    private String customerId;
+    private String employeeId;
     // info
     private String date;
     private String type;
@@ -22,26 +22,26 @@ public class Claim implements Serializable {
     // review
     private String report;
     private int compensation;
-    private Long reviewer;
+    private String reviewer;
     private String status;
 
     public Claim(String[] values) {
         this.claimId = values[0];
-        this.customerId = Long.valueOf(values[1]);
-        this.employeeId = Long.valueOf(values[2]);
+        this.customerId = values[1];
+        this.employeeId = values[2];
         this.date = values[3];
         this.type = values[4];
         this.description = values[5];
         this.location = values[6];
         this.report = values[7];
         this.compensation = Integer.parseInt(values[8]);
-        this.reviewer = Long.valueOf(values[9]);
+        this.reviewer = values[9];
         this.status = values[10];
     }
 
-    public Claim(Long id, String claimId, Long customerId, Long employeeId, String date, String type, String description,
-        String location, String report, int compensation, Long reviewer,
-        String status) {
+    public Claim(Long id, String claimId, String customerId, String employeeId, String date, String type, String description,
+                 String location, String report, int compensation, String reviewer,
+                 String status) {
         this.id = id;
         this.claimId = claimId;
         this.customerId = customerId;
@@ -68,19 +68,19 @@ public class Claim implements Serializable {
         this.claimId = claimId;
     }
 
-    public Long getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 
-    public Long getEmployeeId() {
+    public String getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(Long employeeId) {
+    public void setEmployeeId(String employeeId) {
         this.employeeId = employeeId;
     }
 
@@ -140,11 +140,11 @@ public class Claim implements Serializable {
         this.compensation = compensation;
     }
 
-    public Long getReviewer() {
+    public String getReviewer() {
         return reviewer;
     }
 
-    public void setReviewer(Long reviewer) {
+    public void setReviewer(String reviewer) {
         this.reviewer = reviewer;
     }
 

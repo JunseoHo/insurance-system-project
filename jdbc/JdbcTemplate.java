@@ -1,5 +1,7 @@
 package jdbc;
 
+import annotation.DAO;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@DAO
 public class JdbcTemplate {
 	public void executeUpdate(String sql, PreparedStatementSetter pss) throws DataAccessException {
 		Connection conn = null;

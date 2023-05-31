@@ -2,8 +2,8 @@ package server;
 
 import annotation.Common;
 import annotation.Compensation;
-import customer.Customer;
-import employee.Employee;
+import common.Customer;
+import common.Employee;
 import compensation.Claim;
 import dao.ClaimDAO;
 import dao.CustomerDAO;
@@ -14,10 +14,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ServerImpl extends UnicastRemoteObject implements Server {
@@ -52,12 +51,12 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     @Common
     public Customer getCustomer(String customerId) throws RemoteException {
-        return (Customer) customerDAO.findByCustomerId(customerId);
+        return customerDAO.findByCustomerId(customerId);
     }
 
     @Common
     public Employee getEmployee(String employeeId) throws RemoteException {
-        return (Employee) employeeDAO.findByEmployeeId(employeeId);
+        return employeeDAO.findByEmployeeId(employeeId);
     }
 
     ///////////////////////////////////////////////////////////////////
@@ -74,12 +73,12 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     @Compensation
     public Claim getClaim(String claimId) throws RemoteException {
-        return (Claim) claimDAO.findByClaimId(claimId);
+        return claimDAO.findByClaimId(claimId);
     }
 
     @Compensation
     public List<Claim> getClaims() throws RemoteException {
-        return (List<Claim>) claimDAO.findByClaimId();
+        return claimDAO.findAll();
     }
 
     @Compensation
@@ -89,9 +88,24 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     }
 
     @Compensation
-    public boolean createClaim(Claim claim) throws RemoteException {
-        claim.setEmployeeId("E001"); // temporary code
-        claimDAO.addClaim(claim);
+    public boolean createClaim(Claim newClaim) throws RemoteException {
+        List<Employee> employees = employeeDAO.findAll();
+        Map<String, Integer> table = new HashMap<>();
+        for (Employee employee : employees)
+            if (employee.getDepartment().equals("investigating"))
+                table.put(employee.getEmployeeId(), 0);
+        List<Claim> claims = claimDAO.findAll();
+        for (Claim claim : claims) {
+            int count = table.get(claim.getEmployeeId()) + 1;
+            table.put(claim.getEmployeeId(), count);
+        }
+        String investigator = null;
+        for (String employeeId : table.keySet()) {
+            if (investigator == null || (table.get(investigator) > table.get(employeeId)))
+                investigator = employeeId;
+        }
+        newClaim.setEmployeeId(investigator);
+        claimDAO.addClaim(newClaim);
         return true;
     }
 

@@ -1,8 +1,11 @@
-package customer;
+package common;
 
+
+import annotation.Common;
 
 import java.io.Serializable;
 
+@Common
 public class Customer implements Serializable {
 
     // ids

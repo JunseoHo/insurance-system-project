@@ -1,11 +1,13 @@
 package dao;
 
-import customer.Customer;
+import annotation.DAO;
+import common.Customer;
 
 import java.util.List;
 import jdbc.JdbcTemplate;
 import jdbc.RowMapper;
 
+@DAO
 public class CustomerDAO {
     public void addCustomer(Customer customer) {
         JdbcTemplate template = new JdbcTemplate();

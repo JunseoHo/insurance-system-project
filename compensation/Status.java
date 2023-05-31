@@ -1,5 +1,8 @@
 package compensation;
 
+import annotation.Compensation;
+
+@Compensation
 public enum Status {
 
     REPORTING,
