@@ -15,14 +15,6 @@ public class CustomerDAO {
         template.executeUpdate(sql, customer.getCustomerId(),customer.getBankAccount(), customer.getBirth(), customer.getFamilyHistory(), customer.getGender(), customer.getHealthExaminationRecord(), customer.getJob(), customer.getName());
     }
 
-    public Customer findById(int id) {
-        RowMapper<Customer> rm = generateCommonCustomerRowMapper();
-
-        JdbcTemplate template = new JdbcTemplate();
-        String sql = "select * from CUSTOMERS where id = ?";
-        return template.executeQuery(sql, rm, id);
-    }
-
     public Customer findByCustomerId(String customerId) {
         RowMapper<Customer> rm = generateCommonCustomerRowMapper();
 
@@ -35,12 +27,6 @@ public class CustomerDAO {
         JdbcTemplate template = new JdbcTemplate();
         String sql = "delete from CUSTOMERS where customer_id = ?";
         template.executeUpdate(sql, customerId);
-    }
-
-    public void removeCustomerById(Long id) {
-        JdbcTemplate template = new JdbcTemplate();
-        String sql = "delete from CUSTOMERS where id = ?";
-        template.executeUpdate(sql, id);
     }
 
     public void updateCustomer(Customer customer) {
@@ -64,7 +50,6 @@ public class CustomerDAO {
     private RowMapper<Customer> generateCommonCustomerRowMapper() {
         return rs ->
             new Customer(
-                rs.getLong("id"),
                 rs.getString("customer_id"),
                 rs.getString("name"),
                 rs.getBoolean("gender"),

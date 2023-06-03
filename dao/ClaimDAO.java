@@ -29,14 +29,6 @@ public class ClaimDAO {
         return template.executeQuery(sql, rm, claimId);
     }
 
-    public Claim findById(Long id) {
-        RowMapper<Claim> rm = generateCommonClaimRowMapper();
-
-        JdbcTemplate template = new JdbcTemplate();
-        String sql = "select * from CLAIMS where id = ?";
-        return template.executeQuery(sql, rm, id);
-    }
-
     public void removeClaimByClaimId(String claimId) {
         JdbcTemplate template = new JdbcTemplate();
         String sql = "delete from CLAIMS where claim_id = ?";
@@ -66,7 +58,6 @@ public class ClaimDAO {
     private RowMapper<Claim> generateCommonClaimRowMapper() {
         return rs ->
                 new Claim(
-                        rs.getLong("id"),
                         rs.getString("claim_id"),
                         rs.getString("customer_id"),
                         rs.getString("employee_id"),

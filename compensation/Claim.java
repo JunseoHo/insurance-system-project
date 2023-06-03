@@ -10,7 +10,6 @@ import java.sql.SQLException;
 public class Claim implements Serializable {
 
     // ids
-    private Long id;
     private String claimId;
     private String customerId;
     private String employeeId;
@@ -39,10 +38,9 @@ public class Claim implements Serializable {
         this.status = values[10];
     }
 
-    public Claim(Long id, String claimId, String customerId, String employeeId, String date, String type, String description,
+    public Claim(String claimId, String customerId, String employeeId, String date, String type, String description,
                  String location, String report, int compensation, String reviewer,
                  String status) {
-        this.id = id;
         this.claimId = claimId;
         this.customerId = customerId;
         this.employeeId = employeeId;
@@ -54,10 +52,6 @@ public class Claim implements Serializable {
         this.compensation = compensation;
         this.reviewer = reviewer;
         this.status = status;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getClaimId() {
