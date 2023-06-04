@@ -14,12 +14,11 @@ import com.mysql.cj.jdbc.Driver;
 
 @DAO
 public class ConnectionManager {
-
     public static Connection getConnection() {
         //loadEnvironmentVariables();
         String url = "jdbc:mysql://localhost:3306/nemne_insurance";
-        String id = "root";
-        String pw = "1234";
+        String id = "root"; 
+        String pw = "1234"; // TODO Please type your mysql password
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             return DriverManager.getConnection(url, id, pw);

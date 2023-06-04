@@ -24,7 +24,6 @@ public class Employee implements Serializable {
         this.birth = birth;
         this.department = department;
     }
-
     public String getEmployeeId() {
         return employeeId;
     }

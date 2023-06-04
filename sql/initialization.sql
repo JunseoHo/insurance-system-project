@@ -22,7 +22,7 @@ create table if not exists EMPLOYEES
     department  enum ('marketing', 'investigating', 'supporting', 'sales', 'development', 'contractManager', 'underwriting') charset utf8mb4 not null,
     gender      tinyint(1)                                                                                                                   null,
     name        varchar(100) charset utf8mb4                                                                                                 not null
-    )
+)
     collate = utf8mb4_bin;
 
 create table if not exists CLAIMS
@@ -38,7 +38,14 @@ create table if not exists CLAIMS
     report       varchar(255)                                            null,
     reviewer     varchar(255)                                                  null,
     status       enum ('reviewing', 'reporting', 'accepted', 'rejected', 'paid') null
-)
+    constraint CLAIMS_customers_id_fk
+    foreign key (customer_id) references CUSTOMERS (customer_id)
+    on update cascade on delete cascade,
+    constraint claims_employees_id_fk
+    foreign key (employee_id) references EMPLOYEES (employee_id),
+    constraint claims_employees_id_fk2
+    foreign key (reviewer) references EMPLOYEES (employee_id)
+    )
     collate = utf8mb4_bin;
 
 create table if not exists PRODUCTS

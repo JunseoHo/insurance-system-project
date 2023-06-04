@@ -54,7 +54,6 @@ public class Claim implements Serializable {
         this.status = status;
     }
 
-
     public String getClaimId() {
         return claimId;
     }

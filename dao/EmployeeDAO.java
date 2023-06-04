@@ -25,14 +25,6 @@ public class EmployeeDAO {
         return template.executeQuery(sql, rm, employeeId);
     }
 
-    public Employee findById(Long id) {
-        RowMapper<Employee> rm = generateCommonEmployeeRowMapper();
-
-        JdbcTemplate template = new JdbcTemplate();
-        String sql = "select * from EMPLOYEES where id = ?";
-        return template.executeQuery(sql, rm, id);
-    }
-
     public void removeEmployeeByEmployeeId(String employeeId) {
         JdbcTemplate template = new JdbcTemplate();
         String sql = "delete from EMPLOYEES where employee_id = ?";
