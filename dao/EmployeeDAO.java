@@ -5,6 +5,7 @@ import common.Employee;
 
 import java.util.List;
 
+import compensation.Claim;
 import jdbc.JdbcTemplate;
 import jdbc.RowMapper;
 
@@ -30,15 +31,15 @@ public class EmployeeDAO {
         template.executeUpdate(sql, employeeId);
     }
 
-    public void updateEmployee(Employee employee) {
-        JdbcTemplate template = new JdbcTemplate();
-        String sql = "update EMPLOYEES set birth = ?, department = ?, gender = ?, name = ? where id = ?";
-        template.executeUpdate(sql,
-                employee.getBirth(), employee.getDepartment(), employee.isGender(), employee.getName(), employee.getId()
-        );
-    }
+//    public void updateEmployee(Employee employee) {
+//        JdbcTemplate template = new JdbcTemplate();
+//        String sql = "update EMPLOYEES set birth = ?, department = ?, gender = ?, name = ? where id = ?";
+//        template.executeUpdate(sql,
+//                employee.getBirth(), employee.getDepartment(), employee.isGender(), employee.getName(), employee.getId()
+//        );
+//    }
 
-    public List<Employee> findEmployees() {
+    public List<Employee> findAll() {
         RowMapper<Employee> rm = generateCommonEmployeeRowMapper();
 
         JdbcTemplate template = new JdbcTemplate();
@@ -55,10 +56,6 @@ public class EmployeeDAO {
                         rs.getString("birth"),
                         rs.getString("department")
                 );
-    }
-
-    public List<Employee> findAll() {
-        return null;
     }
 }
 

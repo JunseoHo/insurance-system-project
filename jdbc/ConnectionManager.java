@@ -10,39 +10,42 @@ import java.sql.*;
 import java.util.Map;
 import java.util.Properties;
 
+import com.mysql.cj.jdbc.Driver;
+
 @DAO
 public class ConnectionManager {
-	public static Connection getConnection() {
-		loadEnvironmentVariables();
-		String url = "jdbc:mysql://127.0.0.1:3306/nemne_insurance?serverTimezone=UTC&useSSL=false";
-		String id = System.getProperty("DB_ID");
-		String pw = System.getProperty("DB_PASSWORD");
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			return DriverManager.getConnection(url, id, null);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return null;
-		}
-	}
+    public static Connection getConnection() {
+        //loadEnvironmentVariables();
+        String url = "jdbc:mysql://localhost:3306/nemne_insurance";
+        String id = "root"; 
+        String pw = "1234"; // TODO Please type your mysql password
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            return DriverManager.getConnection(url, id, pw);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 
-	private static void loadEnvironmentVariables() {
-		try {
-			Path currentPath = Paths.get("");
-			String absolutePath = currentPath.toAbsolutePath().toString();
-			FileInputStream fileInputStream = new FileInputStream(absolutePath + "/.env");
-			Properties properties = new Properties();
-			properties.load(fileInputStream);
+    private static void loadEnvironmentVariables() {
+        try {
+            Path currentPath = Paths.get("");
+            String absolutePath = currentPath.toAbsolutePath().toString();
+            FileInputStream fileInputStream = new FileInputStream(absolutePath + "/.env");
+            Properties properties = new Properties();
+            properties.load(fileInputStream);
 
-			for (Map.Entry<Object, Object> entry : properties.entrySet()) {
-				String key = (String) entry.getKey();
-				String value = (String) entry.getValue();
-				if(!value.equals("")) System.setProperty(key, value);
-			}
+            for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+                String key = (String) entry.getKey();
+                String value = (String) entry.getValue();
+                if (!value.equals("")) System.setProperty(key, value);
+            }
 
-			fileInputStream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+            fileInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

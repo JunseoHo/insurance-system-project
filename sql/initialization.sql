@@ -37,7 +37,7 @@ create table if not exists CLAIMS
     location     varchar(255)                                            not null,
     report       varchar(255)                                            null,
     reviewer     varchar(255)                                                  null,
-    status       enum ('reviewing', 'reporting', 'accepted', 'rejected') null,
+    status       enum ('reviewing', 'reporting', 'accepted', 'rejected', 'paid') null
     constraint CLAIMS_customers_id_fk
     foreign key (customer_id) references CUSTOMERS (customer_id)
     on update cascade on delete cascade,

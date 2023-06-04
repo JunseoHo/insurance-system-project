@@ -51,7 +51,12 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     @Common
     public Customer getCustomer(String customerId) throws RemoteException {
-        return customerDAO.findByCustomerId(customerId);
+        List<Customer> customers = customerDAO.findCustomers();
+        for (Customer customer : customers) {
+            if (customer.getCustomerId().equals(customerId))
+                return customer;
+        }
+        return null;
     }
 
     @Common
