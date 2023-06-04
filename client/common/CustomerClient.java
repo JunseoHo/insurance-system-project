@@ -24,6 +24,7 @@ public class CustomerClient {
     private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException {
+        System.setProperty("java.rmi.server.hostname", "localhost");
         if ((server = connect(HOST, PORT, NAME)) == null) return;
         if ((customer = customerLogin(server, reader)) == null) return;
         System.out.println("로그인에 성공했습니다.");

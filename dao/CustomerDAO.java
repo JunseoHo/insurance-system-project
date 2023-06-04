@@ -34,8 +34,8 @@ public class CustomerDAO {
         String sql = "update CUSTOMERS set name = ?, gender = ?, birth = ?, job = ?, bank_account = ?, family_history = ?, health_examination_record = ? where id = ?";
         template.executeUpdate(sql,
             customer.getName(), customer.getBirth(), customer.getJob(),
-            customer.getBankAccount(), customer.getFamilyHistory(), customer.getHealthExaminationRecord(),
-            customer.getId()
+            customer.getBankAccount(), customer.getFamilyHistory(), customer.getHealthExaminationRecord()
+//            customer.getId()
         );
     }
 

@@ -2,12 +2,13 @@ package server;
 
 import annotation.Common;
 import annotation.Compensation;
+import annotation.Contracts;
 import common.Customer;
 import common.Employee;
+import common.Product;
 import compensation.Claim;
-import dao.ClaimDAO;
-import dao.CustomerDAO;
-import dao.EmployeeDAO;
+import contract.Contract;
+import dao.*;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -26,6 +27,8 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     private static CustomerDAO customerDAO;
     private static EmployeeDAO employeeDAO;
     private static ClaimDAO claimDAO;
+    private static ProductDAO productDAO;
+    private static ContractDAO contractDAO;
 
     public ServerImpl() throws RemoteException {
         super();
@@ -33,12 +36,15 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     public static void main(String[] args) {
         try {
+            System.setProperty("java.rmi.server.hostname", "localhost");
             Registry registry = LocateRegistry.createRegistry(PORT);
             registry.bind(NAME, new ServerImpl());
             System.out.println("서버가 성공적으로 시작되었습니다.");
             customerDAO = new CustomerDAO();
             employeeDAO = new EmployeeDAO();
             claimDAO = new ClaimDAO();
+            productDAO = new ProductDAO();
+            contractDAO = new ContractDAO();
         } catch (RemoteException | AlreadyBoundException e) {
             e.printStackTrace();
             System.out.println("레지스트리 등록에 실패했습니다.");
@@ -67,6 +73,33 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     ///////////////////////////////////////////////////////////////////
     ///// contract service
     ///////////////////////////////////////////////////////////////////
+
+    @Contracts
+    public List<Product> getProduct() throws RemoteException {
+        List<Product> products = productDAO.findProducts();
+        return products;
+    }
+    @Contracts
+    public boolean createProduct(Product product)throws RemoteException{
+        return productDAO.addProduct(product);
+    }
+
+    @Contracts
+    public List<Contract> getContract() throws RemoteException {
+        List<Contract> contracts = contractDAO.findContracts();
+        for(int i=0; i<contracts.size(); i++) {
+            if(contracts.get(i).getUnderwriting()) contracts.remove(i);
+        }
+        return contracts;
+    }
+
+    @Contracts
+    public void setUnderwriting(Contract forUnderWritedContract) throws RemoteException {
+        contractDAO.updateContract(forUnderWritedContract);
+    }
+
+
+
 
     ///////////////////////////////////////////////////////////////////
     ///// marketing service

@@ -37,10 +37,10 @@ create table if not exists CLAIMS
     location     varchar(255)                                            not null,
     report       varchar(255)                                            null,
     reviewer     varchar(255)                                                  null,
-    status       enum ('reviewing', 'reporting', 'accepted', 'rejected', 'paid') null
+    status       enum ('reviewing', 'reporting', 'accepted', 'rejected', 'paid') null,
     constraint CLAIMS_customers_id_fk
     foreign key (customer_id) references CUSTOMERS (customer_id)
-    on update cascade on delete cascade,
+    on update cascade,
     constraint claims_employees_id_fk
     foreign key (employee_id) references EMPLOYEES (employee_id),
     constraint claims_employees_id_fk2
@@ -70,7 +70,7 @@ create table if not exists CONTRACTS
     terms_of_subscription text         not null,
     is_underwriting       tinyint(1)   null,
     customer_id           varchar(255)       null,
-    premium               int          null,
+    premiums               int          null,
     constraint CONTRACTS_PRODUCT_id_fk
     foreign key (product_id) references PRODUCTS (product_id),
     constraint CONTRACTS_customers_id_fk
@@ -91,3 +91,7 @@ INSERT INTO EMPLOYEES (birth, department, gender, name, employee_id) values('198
 INSERT INTO EMPLOYEES (birth, department, gender, name, employee_id) values('1980-02-03', 'supporting', True, 'Emma', 'E004');
 
 INSERT INTO CLAIMS (type, compensation, customer_id, date, description, employee_id, location, report, reviewer, status, claim_id) values('none', '3098345', 'C001', '2023-05-23', 'none', 'E001', 'seoul_korean', 'https://your-bucket-name.s3.amazonaws.com/randomString/report.docx', 'E002', 'reviewing', 'CLAIM_ID');
+
+INSERT INTO PRODUCTS(product_id, name, target, compensation_detail, rate, profit_n_loss_analysis, premiums) values('D005',  'wdawd', 'dawd', 'wewawd', 140, 'qqwdawdawd', 2000);
+
+INSERT INTO CONTRACTS (compensation_terms, fee, rate, terms_of_subscription, customer_id, contract_id, premiums, product_id, is_underwriting) values ('awdawd', 20000, 120, 'awdadw', 'C001', 'CC001', 2000, 'D005', false);
