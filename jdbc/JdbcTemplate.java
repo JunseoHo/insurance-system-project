@@ -18,7 +18,7 @@ public class JdbcTemplate {
 			conn = ConnectionManager.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pss.setParameters(pstmt);
-
+			System.out.println(pstmt);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new DataAccessException(e);

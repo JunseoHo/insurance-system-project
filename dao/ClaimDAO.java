@@ -13,8 +13,8 @@ import jdbc.RowMapper;
 public class ClaimDAO {
     public void addClaim(Claim claim) {
         JdbcTemplate template = new JdbcTemplate();
-        String sql = "insert into CLAIMS (compensation, customer_id, date, description, employee_id, location, report, reviewer, status) values(?,?,?,?,?,?,?,?,?)";
-        template.executeUpdate(sql,
+        String sql = "insert into CLAIMS (claim_id, compensation, customer_id, date, description, employee_id, location, report, reviewer, status) values(?,?,?,?,?,?,?,?,?,?)";
+        template.executeUpdate(sql, claim.getClaimId(),
                 claim.getCompensation(), claim.getCustomerId(), claim.getDate(), claim.getDescription(),
                 claim.getEmployeeId(), claim.getLocation(), claim.getReport(),
                 claim.getReviewer(), claim.getStatus()
@@ -45,13 +45,12 @@ public class ClaimDAO {
 
     public void updateClaim(Claim claim) {
         JdbcTemplate template = new JdbcTemplate();
-        String sql = "update CLAIMS set claim_id = ?, customer_id = ?, employee_id = ?, date = ?, type = ?, description = ?, location = ?, report = ?, compensation = ?, reviewer = ?, status = ? where id = ?";
+        String sql = "update CLAIMS set customer_id = ?, employee_id = ?, date = ?, type = ?, description = ?, location = ?, report = ?, compensation = ?, reviewer = ?, status = ? where claim_id = ?";
         template.executeUpdate(sql,
-                claim.getClaimId(),
                 claim.getCustomerId(), claim.getEmployeeId(), claim.getDate(),
                 claim.getType(), claim.getDescription(), claim.getLocation(),
-                claim.getStatus(), claim.getReport(), claim.getCompensation(),
-                claim.getReviewer(), claim.getStatus(), claim.getId()
+                claim.getReport(), claim.getCompensation(),
+                claim.getReviewer(), claim.getStatus(), claim.getClaimId()
         );
     }
 
@@ -66,7 +65,6 @@ public class ClaimDAO {
     private RowMapper<Claim> generateCommonClaimRowMapper() {
         return rs ->
                 new Claim(
-                        rs.getLong("id"),
                         rs.getString("claim_id"),
                         rs.getString("customer_id"),
                         rs.getString("employee_id"),

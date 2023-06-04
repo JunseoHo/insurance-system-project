@@ -43,15 +43,14 @@ public class CustomerDAO {
         template.executeUpdate(sql, id);
     }
 
-    public void updateCustomer(Customer customer) {
-        JdbcTemplate template = new JdbcTemplate();
-        String sql = "update CUSTOMERS set name = ?, gender = ?, birth = ?, job = ?, bank_account = ?, family_history = ?, health_examination_record = ? where id = ?";
-        template.executeUpdate(sql,
-            customer.getName(), customer.getBirth(), customer.getJob(),
-            customer.getBankAccount(), customer.getFamilyHistory(), customer.getHealthExaminationRecord(),
-            customer.getId()
-        );
-    }
+//    public void updateCustomer(Customer customer) {
+//        JdbcTemplate template = new JdbcTemplate();
+//        String sql = "update CUSTOMERS set name = ?, gender = ?, birth = ?, job = ?, bank_account = ?, family_history = ?, health_examination_record = ? where id = ?";
+//        template.executeUpdate(sql,
+//            customer.getName(), customer.getBirth(), customer.getJob(),
+//            customer.getBankAccount(), customer.getFamilyHistory(), customer.getHealthExaminationRecord(),
+//        );
+//    }
 
     public List<Customer> findCustomers() {
         RowMapper<Customer> rm = generateCommonCustomerRowMapper();
@@ -64,7 +63,6 @@ public class CustomerDAO {
     private RowMapper<Customer> generateCommonCustomerRowMapper() {
         return rs ->
             new Customer(
-                rs.getLong("id"),
                 rs.getString("customer_id"),
                 rs.getString("name"),
                 rs.getBoolean("gender"),

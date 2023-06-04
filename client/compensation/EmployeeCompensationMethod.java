@@ -21,7 +21,7 @@ public class EmployeeCompensationMethod {
     public static void selectCompensationMenu(Server server, BufferedReader reader, Employee employee) throws IOException {
         printCompensationMenu();
         switch (getInput("번호를 선택해주세요.", reader)) {
-            case "1" -> uploadReport(server, reader);
+            case "1" -> uploadReport(server, reader, employee);
             case "2" -> reviewClaim(server, reader, employee);
             case "3" -> payCompensation(server, reader);
             default -> System.out.println("잘못된 입력입니다.");
@@ -36,10 +36,10 @@ public class EmployeeCompensationMethod {
     }
 
     @Compensation
-    private static void uploadReport(Server server, BufferedReader reader) throws IOException {
+    private static void uploadReport(Server server, BufferedReader reader, Employee employee) throws IOException {
         List<Claim> claims = new ArrayList<>();
         for (Claim claim : server.getClaims()) {
-            if (claim.getStatus().equals(Status.REPORTING.toString()))
+            if (claim.getStatus().equals(Status.REPORTING.toString()) && claim.getEmployeeId().equals(employee.getEmployeeId()))
                 claims.add(claim);
         }
         Claim claim = null;
@@ -85,7 +85,10 @@ public class EmployeeCompensationMethod {
         List<Claim> claims = server.getClaims();
         Claim claim = null;
         while (claim == null) {
-            for (Claim element : claims) System.out.println(element);
+            for (Claim element : claims) {
+                if (element.getStatus().equals(Status.REVIEWING.toString()))
+                    System.out.println(element);
+            }
             String claimId = ClientUtil.getInput("Input claim ID", reader);
             for (Claim element : claims) {
                 if (element.getClaimId().equals(claimId))
@@ -136,12 +139,14 @@ public class EmployeeCompensationMethod {
         String value = null;
         while (value == null) {
             try {
-                value = ClientUtil.getInput("Review Result (ACCEPTED / REJECTED)", reader);
+                value = ClientUtil.getInput("Review Result (accepted / rejected)", reader);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            if (!value.equals(Status.ACCEPTED.toString()) && !value.equals(Status.REJECTED.toString()))
+            if (!value.equals(Status.ACCEPTED.toString()) && !value.equals(Status.REJECTED.toString())) {
                 value = null;
+                System.out.println("Invalid Input");
+            }
         }
         return value;
     }
