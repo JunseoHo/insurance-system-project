@@ -4,7 +4,8 @@ USE nemne_insurance;
 
 create table if not exists CUSTOMERS
 (
-    customer_id               varchar(255) primary key,
+    customer_id               varchar(255) not null
+    primary key,
     bank_account              varchar(100) not null,
     birth                     varchar(100) null,
     family_history            mediumtext   not null,
@@ -17,26 +18,28 @@ create table if not exists CUSTOMERS
 
 create table if not exists EMPLOYEES
 (
-    employee_id varchar(255)                                                                                                                 primary key,
+    employee_id varchar(255)                                                                                                                 not null
+    primary key,
     birth       varchar(100) charset utf8mb4                                                                                                 null,
     department  enum ('marketing', 'investigating', 'supporting', 'sales', 'development', 'contractManager', 'underwriting') charset utf8mb4 not null,
     gender      tinyint(1)                                                                                                                   null,
     name        varchar(100) charset utf8mb4                                                                                                 not null
-)
+    )
     collate = utf8mb4_bin;
 
 create table if not exists CLAIMS
 (
-    claim_id     varchar(255)                                            primary key,
-    compensation int                                                     not null,
-    customer_id  varchar(255)                                                  not null,
-    date         varchar(100)                                            not null,
-    description  text                                                    null,
-    employee_id  varchar(255)                                                  null,
-    type         varchar(100)                                            null,
-    location     varchar(255)                                            not null,
-    report       varchar(255)                                            null,
-    reviewer     varchar(255)                                                  null,
+    claim_id     varchar(255)                                                    not null
+    primary key,
+    compensation int                                                             not null,
+    customer_id  varchar(255)                                                    not null,
+    date         varchar(100)                                                    not null,
+    description  text                                                            null,
+    employee_id  varchar(255)                                                    null,
+    type         varchar(100)                                                    null,
+    location     varchar(255)                                                    not null,
+    report       varchar(255)                                                    null,
+    reviewer     varchar(255)                                                    null,
     status       enum ('reviewing', 'reporting', 'accepted', 'rejected', 'paid') null,
     constraint CLAIMS_customers_id_fk
     foreign key (customer_id) references CUSTOMERS (customer_id)
@@ -50,11 +53,12 @@ create table if not exists CLAIMS
 
 create table if not exists PRODUCTS
 (
-    product_id             varchar(255) primary key,
+    product_id             varchar(255) not null
+    primary key,
     name                   varchar(255) null,
     target                 varchar(255) null,
     compensation_detail    text         null,
-    rate                   float          null,
+    rate                   float        null,
     profit_n_loss_analysis text         null,
     premiums               int          null
     )
@@ -62,15 +66,16 @@ create table if not exists PRODUCTS
 
 create table if not exists CONTRACTS
 (
-    contract_id           varchar(255) primary key,
+    contract_id           varchar(255) not null
+    primary key,
     compensation_terms    text         not null,
     fee                   int          not null,
-    product_id            varchar(255)       null,
+    product_id            varchar(255) null,
     rate                  float        null,
     terms_of_subscription text         not null,
     is_underwriting       tinyint(1)   null,
-    customer_id           varchar(255)       null,
-    premiums               int          null,
+    customer_id           varchar(255) null,
+    premiums              int          null,
     constraint CONTRACTS_PRODUCT_id_fk
     foreign key (product_id) references PRODUCTS (product_id),
     constraint CONTRACTS_customers_id_fk
@@ -78,9 +83,6 @@ create table if not exists CONTRACTS
     on update cascade on delete cascade
     )
     collate = utf8mb4_bin;
-
-
-
 
 -- Add dummy data
 INSERT INTO CUSTOMERS (bank_account, birth, family_history, gender, health_examination_record, job, name, customer_id) values('KB92938202-20-2938293', '1999-10-29', 'none', False, 'none', 'Student', 'Junseo', 'C001');
