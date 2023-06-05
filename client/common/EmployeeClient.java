@@ -7,6 +7,8 @@ import client.compensation.EmployeeCompensationMethod;
 import client.contract.EmployeeContractMethod;
 import client.marketing.EmployeeMarketingMethod;
 import common.Employee;
+import compensation.Claim;
+import compensation.Status;
 import server.Server;
 
 import java.io.BufferedReader;

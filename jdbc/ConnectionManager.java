@@ -16,7 +16,7 @@ public class ConnectionManager {
         //loadEnvironmentVariables();
         String url = "jdbc:mysql://localhost:3306/nemne_insurance";
         String id = "root"; 
-        String pw = ""; // TODO Please type your mysql password
+        String pw = "1234"; // TODO Please type your mysql password
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             return DriverManager.getConnection(url, id, pw);

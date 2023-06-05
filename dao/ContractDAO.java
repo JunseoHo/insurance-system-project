@@ -8,7 +8,7 @@ import jdbc.RowMapper;
 public class ContractDAO {
     public boolean addContract(Contract contract) {
         JdbcTemplate template = new JdbcTemplate();
-        String sql = "INSERT INTO CONTRACTS (compensation_terms, fee, rate, terms_of_subscription, underwriting_report, customer_id, contract_id, premiums, product_id) values(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO CONTRACTS (compensation_terms, fee, rate, terms_of_subscription, customer_id, contract_id, premiums, product_id, is_underwriting) values(?,?,?,?,?,?,?,?,?)";
         template.executeUpdate(sql, contract.getCompensationTerms(), contract.getFee(), contract.getRate(),
                 contract.getTermsOfSubscription(), contract.getCustomerId(),
                 contract.getContractId(), contract.getPremiums(), contract.getProductId(), contract.getUnderwriting());

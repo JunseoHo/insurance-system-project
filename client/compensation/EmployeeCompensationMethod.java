@@ -32,7 +32,6 @@ public class EmployeeCompensationMethod {
             case "3" -> {
                 if (employee.getDepartment().equals("supporting")) payCompensation(server, reader);
                 else System.out.println("권한이 없습니다!");
-
             }
             default -> System.out.println("잘못된 입력입니다.");
         }

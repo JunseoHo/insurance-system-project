@@ -5,6 +5,7 @@ import client.common.ClientUtil;
 import compensation.Claim;
 import compensation.Status;
 import common.Customer;
+import contract.Contract;
 import exception.DateFormatException;
 import exception.EmptyInputException;
 import server.Server;
@@ -13,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.UUID;
 
 import static client.common.ClientUtil.NA;
@@ -40,7 +42,7 @@ public class CustomerCompensationMethod {
         values[1] = customer.getCustomerId();
         values[2] = NA;
         values[3] = getInputDate(reader);
-        values[4] = getInputText("청구유형", reader);
+        values[4] = getInputType(server, customer, "청구유형", reader);
         values[6] = getInputText("사고장소", reader);
         values[5] = getInputText("사고내용", reader);
         values[7] = NA;
@@ -62,6 +64,29 @@ public class CustomerCompensationMethod {
                 if (!checkDateFormat(value = ClientUtil.getInput("사고날짜", reader)))
                     throw new DateFormatException();
             } catch (DateFormatException | IOException e) {
+                value = null;
+                System.out.println(e.getMessage());
+            }
+        }
+        return value;
+    }
+
+    private static String getInputType(Server server, Customer customer, String label, BufferedReader reader) {
+        String value = null;
+        while (value == null) {
+            try {
+                List<Contract> contracts = server.getContract();
+                System.out.println(contracts.size());
+                for (Contract contract : contracts) {
+                    if (contract.getCustomerId().equals(customer.getCustomerId()) && contract.getUnderwriting()) {
+                        System.out.println(contract.getProductId());
+                    }
+                }
+                if ((value = ClientUtil.getInput(label, reader))
+                        .replace(" ", "_")
+                        .equals(""))
+                    throw new EmptyInputException();
+            } catch (EmptyInputException | IOException e) {
                 value = null;
                 System.out.println(e.getMessage());
             }

@@ -1,3 +1,5 @@
+drop database nemne_insurance;
+create database nemne_insurance;
 USE nemne_insurance;
 
 -- Initialize tables
@@ -23,6 +25,8 @@ create table if not exists BOARDS
     statement_title   varchar(255) collate utf8mb4_general_ci not null,
     statement_content text collate utf8mb4_general_ci         not null,
     customer_id       varchar(255)                            null,
+    answer            varchar(255)                              null,
+    processed         int,
     constraint BOARDS_CUSTOMERS_customer_id_fk
     foreign key (customer_id) references CUSTOMERS (customer_id)
     on update cascade on delete cascade
