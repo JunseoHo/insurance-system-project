@@ -10,7 +10,6 @@ import java.sql.SQLException;
 public class Claim implements Serializable {
 
     // ids
-    private Long id;
     private String claimId;
     private String customerId;
     private String employeeId;
@@ -26,23 +25,21 @@ public class Claim implements Serializable {
     private String status;
 
     public Claim(String[] values) {
-        this.claimId = values[0];
-        this.customerId = values[1];
-        this.employeeId = values[2];
-        this.date = values[3];
-        this.type = values[4];
-        this.description = values[5];
-        this.location = values[6];
-        this.report = values[7];
-        this.compensation = Integer.parseInt(values[8]);
-        this.reviewer = values[9];
-        this.status = values[10];
+        this.customerId = values[0];
+        this.employeeId = values[1];
+        this.date = values[2];
+        this.type = values[3];
+        this.description = values[4];
+        this.location = values[5];
+        this.report = values[6];
+        this.compensation = Integer.parseInt(values[7]);
+        this.reviewer = values[8];
+        this.status = values[9];
     }
 
-    public Claim(Long id, String claimId, String customerId, String employeeId, String date, String type, String description,
+    public Claim(String claimId, String customerId, String employeeId, String date, String type, String description,
                  String location, String report, int compensation, String reviewer,
                  String status) {
-        this.id = id;
         this.claimId = claimId;
         this.customerId = customerId;
         this.employeeId = employeeId;
@@ -54,10 +51,6 @@ public class Claim implements Serializable {
         this.compensation = compensation;
         this.reviewer = reviewer;
         this.status = status;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getClaimId() {

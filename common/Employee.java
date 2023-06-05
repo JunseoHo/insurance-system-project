@@ -8,7 +8,6 @@ import java.io.Serializable;
 public class Employee implements Serializable {
 
     // ids
-    private Long id;
     private String employeeId;
     // personal info
     private String name;
@@ -17,9 +16,8 @@ public class Employee implements Serializable {
     // insurance info
     private String department;
 
-    public Employee(Long id, String employeeId, String name, boolean gender, String birth,
+    public Employee( String employeeId, String name, boolean gender, String birth,
         String department) {
-        this.id = id;
         this.employeeId = employeeId;
         this.name = name;
         this.gender = gender;
@@ -27,9 +25,6 @@ public class Employee implements Serializable {
         this.department = department;
     }
 
-    public Long getId() {
-        return id;
-    }
     public String getEmployeeId() {
         return employeeId;
     }

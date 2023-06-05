@@ -22,11 +22,11 @@ public class EmployeeDAO {
         return template.executeQuery(sql, rm, employeeId);
     }
 
-    public Employee findById(Long id) {
+    public Employee findById(String id) {
         RowMapper<Employee> rm = generateCommonEmployeeRowMapper();
 
         JdbcTemplate template = new JdbcTemplate();
-        String sql = "select * from EMPLOYEES where id = ?";
+        String sql = "select * from EMPLOYEES where employee_id = ?";
         return template.executeQuery(sql, rm, id);
     }
 
@@ -38,9 +38,9 @@ public class EmployeeDAO {
 
     public void updateEmployee(Employee employee) {
         JdbcTemplate template = new JdbcTemplate();
-        String sql = "update EMPLOYEES set birth = ?, department = ?, gender = ?, name = ? where id = ?";
+        String sql = "update EMPLOYEES set birth = ?, department = ?, gender = ?, name = ? where empoyee_id = ?";
         template.executeUpdate(sql,
-                employee.getBirth(), employee.getDepartment(), employee.isGender(), employee.getName(), employee.getId()
+                employee.getBirth(), employee.getDepartment(), employee.isGender(), employee.getName(), employee.getEmployeeId()
         );
     }
 
@@ -55,7 +55,6 @@ public class EmployeeDAO {
     private RowMapper<Employee> generateCommonEmployeeRowMapper() {
         return rs ->
                 new Employee(
-                        rs.getLong("id"),
                         rs.getString("employee_id"),
                         rs.getString("name"),
                         rs.getBoolean("gender"),

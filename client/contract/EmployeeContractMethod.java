@@ -2,8 +2,8 @@ package client.contract;
 
 import annotation.Contracts;
 
-
 import common.Product;
+import compensation.Claim;
 import contract.Contract;
 import common.Employee;
 import server.Server;
@@ -19,7 +19,7 @@ public class EmployeeContractMethod {
 
 	private static int rate;
 
-	public static void selectContractMenu(Server server, BufferedReader reader, Employee employee) throws IOException{
+	public static void selectContractMenu(Server server, BufferedReader reader, Employee employee) throws IOException {
 		printContractMenu();
 		switch (getInput("번호를 선택해주세요.", reader)) {
 		case "1" -> developProduct(server, reader);
@@ -32,34 +32,45 @@ public class EmployeeContractMethod {
 		}
 	}
 
-	private static void manageClaimPayoutInitial(Server server, BufferedReader reader) throws IOException, RemoteException {
+	private static void manageClaimPayoutInitial(Server server, BufferedReader reader)
+			throws IOException, RemoteException {
 		showClaimPayoutMenu();
-		switch(getInput("번호를 선택해주세요.", reader)) {
+		switch (getInput("번호를 선택해주세요.", reader)) {
 		case "1" -> ListClaimPayout(server, reader);
 		case "2" -> analysisClaimPayout(server, reader);
 		default -> System.out.println("***** 잘못된 입력입니다. *****");
 		}
-		
+
 	}
 
 	private static void analysisClaimPayout(Server server, BufferedReader reader) throws RemoteException {
-		List<Contract> contracts = server.getContract();
-		int sum =0;
-		int num =0;
-		for(int i=0; i<contracts.size(); i++) {
-			sum += contracts.get(i).getFee();
-		num ++;
+		List<Claim> temp = server.getClaims();
+		List<Claim> claims = new ArrayList<>();
+		for (int i = 0; i < temp.size(); i++) {
+			if (temp.get(i).getStatus().equals("accepted")) {
+				claims.add(temp.get(i));
+			}
 		}
-		int avg = sum/num;
-		System.out.println("대기 인원 : "+ num +"명");
-		System.out.println("총 제지급금 금액 : "+ sum +"원");
-		System.out.println("제지급금 평균 : " + avg+"원");
+		if (claims.size() == 0) {
+			System.out.println("제지급금 목록이 비어있습니다.");
+		} else {
+			int sum = 0;
+			int num = 0;
+			for (int i = 0; i < claims.size(); i++) {
+				sum += claims.get(i).getCompensation();
+				num++;
+			}
+			int avg = sum / num;
+			System.out.println("대기 인원 : " + num + "명");
+			System.out.println("총 제지급금 금액 : " + sum + "원");
+			System.out.println("제지급금 평균 : " + avg + "원");
+		}
 	}
 
 	private static void ListClaimPayout(Server server, BufferedReader reader) throws RemoteException {
 		List<Contract> contracts = server.getContract();
 		System.out.print(toTableSetClaimPayout());
-		for(int i=0; i<contracts.size(); i++) {
+		for (int i = 0; i < contracts.size(); i++) {
 			System.out.print(contracts.get(i).getClaimPayout());
 		}
 	}
@@ -71,34 +82,39 @@ public class EmployeeContractMethod {
 	}
 
 	private static void underwritingContract(Server server, BufferedReader reader) throws IOException {
-		List<Contract> contracts = server.getContract();
-		for(int i=0; i<contracts.size(); i++) {
-			if(!contracts.get(i).getIs_underwriting())System.out.println(contracts.get(i).getContract_id());
+		List<Contract> temp = server.getContract();
+		List<Contract> contracts = new ArrayList<>();
+		System.out.println("***** 인수심사 목록 *****");
+		for (int i = 0; i < temp.size(); i++) {
+			if (!temp.get(i).getIs_underwriting())
+				System.out.println(contracts.get(i).getContract_id());
+				contracts.add(temp.get(i));
 		}
-	String answer =	getInput("인수심사할 계약의 아이디를 입력하여 주십시오", reader);
-		Contract forUnderWritedContract =null;
-		for(int i=0; i< contracts.size();i++) {
-		if(answer.equals(contracts.get(i).getContract_id())) {
-			forUnderWritedContract = contracts.get(i);
-		}
+		String answer = getInput("인수심사할 계약의 아이디를 입력하여 주십시오", reader);
+		Contract forUnderWritedContract = null;
+		for (int i = 0; i < contracts.size(); i++) {
+			if (answer.equals(contracts.get(i).getContract_id())) {
+				forUnderWritedContract = contracts.get(i);
+			}
 		}
 		int answerForFee = Integer.parseInt(getInput("보험료를 입력하여 주십시오.", reader));
 		forUnderWritedContract.setPremiums(answerForFee);
 		server.setUnderwriting(forUnderWritedContract);
+		System.out.println("저장 완료");
 	}
 
 	private static void updateProductInput(Server server, BufferedReader reader) throws IOException {
 		String ans = getInput("수정할 상품의 ID를 입력하여 주십시오", reader);
 		List<Product> products = server.getProduct();
-		for(int i=0; i<products.size(); i++) {
-			if(ans.equals(products.get(i).getId())) {
+		for (int i = 0; i < products.size(); i++) {
+			if (ans.equals(products.get(i).getId())) {
 				updateProduct(reader, ans, server);
 //				server.updateProduct(product)
 			}
 		}
 	}
-	
-	private static void updateProduct(BufferedReader reader, String productId,Server server) {
+
+	private static void updateProduct(BufferedReader reader, String productId, Server server) {
 		Product product = null;
 		String[] values = new String[7];
 		try {
@@ -116,7 +132,7 @@ public class EmployeeContractMethod {
 				try {
 					value = Integer.parseInt(answer);
 				} catch (NumberFormatException e) {
-					value = getInputRate("숫자를 입력하여 주세요.",reader);
+					value = getInputRate("숫자를 입력하여 주세요.", reader);
 				}
 				values[4] = "" + value;
 			}
@@ -127,14 +143,15 @@ public class EmployeeContractMethod {
 			try {
 				val = Integer.parseInt(reader.readLine().trim());
 			} catch (NumberFormatException e) {
-				val = getInputRate("숫자를 입력하여 주세요.",reader);
+				val = getInputRate("숫자를 입력하여 주세요.", reader);
 			}
 			values[6] = "" + val;
 
-			String answerFinal = getInputYesOrNo("****상품을 업로드 하시겠습니까? (Y/N)****", reader);
+			String answerFinal = getInputYesOrNo("****상품을 수정하시겠습니까? (Y/N)****", reader);
 			if (answerFinal.equalsIgnoreCase("y")) {
-				server.updateProduct(new Product(productId, values[1], values[2], values[3], Integer.parseInt(values[4]), values[5], Integer.parseInt(values[6])));
-				
+				server.updateProduct(new Product(productId, values[1], values[2], values[3],
+						Integer.parseInt(values[4]), values[5], Integer.parseInt(values[6])));
+
 			} else if (answerFinal.equalsIgnoreCase("n")) {
 				System.out.println("***** 상품 개발이 취소되었습니다. *****");
 			}
@@ -151,14 +168,14 @@ public class EmployeeContractMethod {
 			System.out.print(products.get(i).toString());
 	}
 
-	private static void computeRate(BufferedReader reader) throws IOException{
+	private static void computeRate(BufferedReader reader) throws IOException {
 		String input[] = new String[4];
-			System.out.println("**** 대상 고객의 정보를 입력하여 주세요. ****");
-			getInputNum("성별 : 1. 남자 2.여자", reader);
-			input[0] = getInputNum("대상 고객의 연령대가 60대 이상입니까?\n1. 예 2.아니오", reader);
-			input[1] = getInputNum("가족력이 있는 고객 전용입니까?\n1. 예 2.아니오", reader);
-			input[2] = getInputNum("흡연하는 고객이 대상입니까?\n1. 예 2.아니오", reader);
-			input[3] = getInputNum("상대적으로 위험한 직업을 가진 고객이 대상입니까?\n1. 예 2.아니오", reader);
+		System.out.println("**** 대상 고객의 정보를 입력하여 주세요. ****");
+		getInputNum("성별 : 1. 남자 2.여자", reader);
+		input[0] = getInputNum("대상 고객의 연령대가 60대 이상입니까?\n1. 예 2.아니오", reader);
+		input[1] = getInputNum("가족력이 있는 고객 전용입니까?\n1. 예 2.아니오", reader);
+		input[2] = getInputNum("흡연하는 고객이 대상입니까?\n1. 예 2.아니오", reader);
+		input[3] = getInputNum("상대적으로 위험한 직업을 가진 고객이 대상입니까?\n1. 예 2.아니오", reader);
 		double temp = 0;
 		for (int i = 0; i < input.length; i++) {
 			if (Integer.parseInt(input[i]) == 1)
@@ -194,7 +211,7 @@ public class EmployeeContractMethod {
 				try {
 					value = Integer.parseInt(answer);
 				} catch (NumberFormatException e) {
-					value = getInputRate("숫자를 입력하여 주세요.",reader);
+					value = getInputRate("숫자를 입력하여 주세요.", reader);
 				}
 				values[4] = "" + value;
 			}
@@ -205,14 +222,16 @@ public class EmployeeContractMethod {
 			try {
 				val = Integer.parseInt(reader.readLine().trim());
 			} catch (NumberFormatException e) {
-				val = getInputRate("숫자를 입력하여 주세요.",reader);
+				val = getInputRate("숫자를 입력하여 주세요.", reader);
 			}
 			values[6] = "" + val;
 
 			String answerFinal = getInputYesOrNo("****상품을 업로드 하시겠습니까? (Y/N)****", reader);
 			if (answerFinal.equalsIgnoreCase("y")) {
 //				System.out.println(values[4]);
-				if (server.createProduct(new Product(values[0], values[1], values[2], values[3], Integer.parseInt(values[4]), values[5], Integer.parseInt(values[6]))))System.out.println("***** 업로드 완료 *****");
+				if (server.createProduct(new Product(values[0], values[1], values[2], values[3],
+						Integer.parseInt(values[4]), values[5], Integer.parseInt(values[6]))))
+					System.out.println("***** 업로드 완료 *****");
 			} else if (answerFinal.equalsIgnoreCase("n")) {
 				System.out.println("***** 상품 개발이 취소되었습니다. *****");
 			}
@@ -242,58 +261,59 @@ public class EmployeeContractMethod {
 				"--------------------------------------------------------------------------------------------------------------------\n");
 		return table.toString();
 	}
+
 	public static String toTableSetClaimPayout() {
 		StringBuilder table = new StringBuilder();
-		table.append(
-				"--------------------------------\n");
-		table.append(String.format("| %-9s | %-13s |\n",
-				"계약ID", "제지급금"));
-		table.append(
-				"--------------------------------\n");
+		table.append("--------------------------------\n");
+		table.append(String.format("| %-9s | %-13s |\n", "계약ID", "제지급금"));
+		table.append("--------------------------------\n");
 		return table.toString();
 	}
 
 	public static String getInputNum(String message, BufferedReader reader) throws IOException {
-        System.out.print(message + "\n" + ">> ");
-        String a =reader.readLine().trim();
-        if(a.equals("1")|| a.equals("2")) return a;
-        else { 
-        	System.out.println("*** 잘못된 입력입니다. ***");
-        return getInputNum(message, reader);
-        }
-    }
-	
+		System.out.print(message + "\n" + ">> ");
+		String a = reader.readLine().trim();
+		if (a.equals("1") || a.equals("2"))
+			return a;
+		else {
+			System.out.println("*** 잘못된 입력입니다. ***");
+			return getInputNum(message, reader);
+		}
+	}
+
 	public static int getInputRate(String message, BufferedReader reader) throws IOException {
-        System.out.print(message + "\n" + ">> ");
-        int a=0;
-        try {
-        a =Integer.parseInt(reader.readLine().trim());
-        } catch(NumberFormatException e) {
-        	System.out.println("*** 잘못된 입력입니다. ***");
-        return getInputRate(message, reader);
-        }
-        return a;
-    }
-	
+		System.out.print(message + "\n" + ">> ");
+		int a = 0;
+		try {
+			a = Integer.parseInt(reader.readLine().trim());
+		} catch (NumberFormatException e) {
+			System.out.println("*** 잘못된 입력입니다. ***");
+			return getInputRate(message, reader);
+		}
+		return a;
+	}
+
 	public static String getInputYesOrNo(String message, BufferedReader reader) throws IOException {
-        System.out.print(message + "\n" + ">> ");
-        String a =reader.readLine().trim();
-        if(a.equalsIgnoreCase("y")|| a.equalsIgnoreCase("n")) return a;
-        else { 
-        	System.out.println("*** 잘못된 입력입니다. ***");
-        return getInputYesOrNo(message, reader);
-        }
-    }
+		System.out.print(message + "\n" + ">> ");
+		String a = reader.readLine().trim();
+		if (a.equalsIgnoreCase("y") || a.equalsIgnoreCase("n"))
+			return a;
+		else {
+			System.out.println("*** 잘못된 입력입니다. ***");
+			return getInputYesOrNo(message, reader);
+		}
+	}
+
 	public static String getInputID(String message, BufferedReader reader, Server server) throws IOException {
-        System.out.print(message + "\n" + ">> ");
-        List<Product> products = server.getProduct();
-        String a =reader.readLine().trim();
-        for(int i=0; i<products.size(); i++) {
-        	if(a.equals(products.get(i).getId())) {
-        		System.out.println("*** 중복된 아이디입니다. ***");
-                return getInputID(message, reader, server);
-        	}
-        }
-        return a;
-    }
+		System.out.print(message + "\n" + ">> ");
+		List<Product> products = server.getProduct();
+		String a = reader.readLine().trim();
+		for (int i = 0; i < products.size(); i++) {
+			if (a.equals(products.get(i).getId())) {
+				System.out.println("*** 중복된 아이디입니다. ***");
+				return getInputID(message, reader, server);
+			}
+		}
+		return a;
+	}
 }
