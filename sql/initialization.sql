@@ -16,6 +16,19 @@ create table if not exists CUSTOMERS
     )
     collate = utf8mb4_bin;
 
+create table if not exists BOARDS
+(
+    statement_id      varchar(255) collate utf8mb4_general_ci not null
+    primary key,
+    statement_title   varchar(255) collate utf8mb4_general_ci not null,
+    statement_content text collate utf8mb4_general_ci         not null,
+    customer_id       varchar(255)                            null,
+    constraint BOARDS_CUSTOMERS_customer_id_fk
+    foreign key (customer_id) references CUSTOMERS (customer_id)
+    on update cascade on delete cascade
+    )
+    collate = utf8mb4_bin;
+
 create table if not exists EMPLOYEES
 (
     employee_id varchar(255)                                                                                                                 not null
@@ -83,6 +96,8 @@ create table if not exists CONTRACTS
     on update cascade on delete cascade
     )
     collate = utf8mb4_bin;
+
+
 
 -- Add dummy data
 INSERT INTO CUSTOMERS (bank_account, birth, family_history, gender, health_examination_record, job, name, customer_id) values('KB92938202-20-2938293', '1999-10-29', 'none', False, 'none', 'Student', 'Junseo', 'C001');
