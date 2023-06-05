@@ -3,7 +3,6 @@ package client.marketing;
 import annotation.Marketing;
 import common.Customer;
 import server.Server;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 

@@ -1,6 +1,7 @@
 package client.compensation;
 
 import annotation.Compensation;
+
 import client.common.ClientUtil;
 import compensation.Claim;
 import compensation.Status;
@@ -34,6 +35,8 @@ public class EmployeeCompensationMethod {
         System.out.println("2. 보험금 지급 여부를 심사한다.");
         System.out.println("3. 보험금을 지급한다.");
     }
+    
+    
 
     @Compensation
     private static void uploadReport(Server server, BufferedReader reader) throws IOException {
@@ -145,4 +148,7 @@ public class EmployeeCompensationMethod {
         }
         return value;
     }
+    
+    
+    
 }

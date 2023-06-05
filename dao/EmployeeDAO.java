@@ -2,9 +2,7 @@ package dao;
 
 import annotation.DAO;
 import common.Employee;
-
 import java.util.List;
-
 import jdbc.JdbcTemplate;
 import jdbc.RowMapper;
 

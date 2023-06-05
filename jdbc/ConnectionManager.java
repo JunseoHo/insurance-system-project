@@ -14,12 +14,12 @@ import java.util.Properties;
 public class ConnectionManager {
 	public static Connection getConnection() {
 		loadEnvironmentVariables();
-		String url = "jdbc:mysql://127.0.0.1:3306/nemne_insurance?serverTimezone=UTC&useSSL=false";
-		String id = System.getProperty("root");
-		String pw = System.getProperty("1234");
+		String url = "jdbc:mysql://localhost:3306/nemne_insurance?serverTimezone=UTC&useSSL=false";
+		String id = System.getProperty("DB_ID");
+		String pw = System.getProperty("DB_PASSWORD");
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			return DriverManager.getConnection(url, id, null);
+			return DriverManager.getConnection(url, id, pw);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return null;

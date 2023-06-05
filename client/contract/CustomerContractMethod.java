@@ -1,6 +1,6 @@
 package client.contract;
 
-import annotation.Contract;
+import annotation.Contracts;
 import common.Customer;
 import server.Server;
 
@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import static client.common.ClientUtil.getInput;
 
-@Contract
+@Contracts
 public class CustomerContractMethod {
 
 

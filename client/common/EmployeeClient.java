@@ -7,6 +7,7 @@ import client.compensation.EmployeeCompensationMethod;
 import client.contract.EmployeeContractMethod;
 import client.marketing.EmployeeMarketingMethod;
 import common.Employee;
+import exception.NotOneOrTwoException;
 import server.Server;
 
 import java.io.BufferedReader;
@@ -32,7 +33,7 @@ public class EmployeeClient {
         reader.close();
     }
 
-    private static void selectMainMenu() throws IOException {
+    private static void selectMainMenu() throws IOException{
         while (true) {
             printMainMenu();
             switch (getInput("번호를 선택해주세요.", reader)) {
@@ -47,7 +48,6 @@ public class EmployeeClient {
             }
         }
     }
-
     private static void printMainMenu() {
         System.out.println("\n***** 메인 메뉴 *****");
         System.out.println("1. 계약 메뉴.");
@@ -55,5 +55,4 @@ public class EmployeeClient {
         System.out.println("3. 보상 메뉴");
         System.out.println("x. 종료한다.");
     }
-
 }
