@@ -81,27 +81,25 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     ///////////////////////////////////////////////////////////////////
     ///// contract service
     ///////////////////////////////////////////////////////////////////
-    
 
-    
+
     @Contracts
-	public List<Contract> getContract() throws RemoteException {
-    	List<Contract> contracts = contractDAO.findContracts();
-		return contracts;
-	}
-    
-    @Contracts
-	public void setUnderwriting(Contract forUnderWritedContract) throws RemoteException {
-    	contractDAO.updateContract(forUnderWritedContract);
-	}
-    
-    @Contracts 
-    public boolean updateProduct(Product product) throws RemoteException {
-    	productDAO.updateProduct(product);
-    	return true;
+    public List<Contract> getContract() throws RemoteException {
+        List<Contract> contracts = contractDAO.findContracts();
+        return contracts;
     }
 
-    
+    @Contracts
+    public void setUnderwriting(Contract forUnderWritedContract) throws RemoteException {
+        contractDAO.updateContract(forUnderWritedContract);
+    }
+
+    @Contracts
+    public boolean updateProduct(Product product) throws RemoteException {
+        productDAO.updateProduct(product);
+        return true;
+    }
+
 
     @Contracts
     public List<Product> getProduct() throws RemoteException {
@@ -185,7 +183,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
             if (employee.getDepartment().equals("supporting")) table.put(employee.getEmployeeId(), 0);
         claims = claimDAO.findAll();
         for (Claim claim : claims) {
-            if (!claim.getReviewer().equals("NA")) {
+            if (table.get(claim.getReviewer()) != null) {
                 int count = table.get(claim.getReviewer()) + 1;
                 table.put(claim.getEmployeeId(), count);
             }
