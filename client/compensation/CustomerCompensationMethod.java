@@ -76,7 +76,6 @@ public class CustomerCompensationMethod {
         while (value == null) {
             try {
                 List<Contract> contracts = server.getContract();
-                System.out.println(contracts.size());
                 for (Contract contract : contracts) {
                     if (contract.getCustomerId().equals(customer.getCustomerId()) && contract.getUnderwriting()) {
                         System.out.println(contract.getProductId());

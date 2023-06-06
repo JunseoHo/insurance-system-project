@@ -87,9 +87,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     @Contracts
 	public List<Contract> getContract() throws RemoteException {
     	List<Contract> contracts = contractDAO.findContracts();
-    	for(int i=0; i<contracts.size(); i++) {
-    		if(contracts.get(i).getUnderwriting()) contracts.remove(i);
-    	}
 		return contracts;
 	}
     

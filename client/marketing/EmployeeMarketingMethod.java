@@ -27,7 +27,7 @@ public class EmployeeMarketingMethod {
 
     private static void printMarketingMenu() {
         System.out.println("\n***** 마케팅 메뉴 *****");
-        System.out.println("1. [계약내용업데이트]");
+        System.out.println("1. [문의게시판확인]");
         System.out.println("2. [고객정보분석]");
     }
 

@@ -25,16 +25,17 @@ public class Claim implements Serializable {
     private String status;
 
     public Claim(String[] values) {
-        this.customerId = values[0];
-        this.employeeId = values[1];
-        this.date = values[2];
-        this.type = values[3];
-        this.description = values[4];
-        this.location = values[5];
-        this.report = values[6];
-        this.compensation = Integer.parseInt(values[7]);
-        this.reviewer = values[8];
-        this.status = values[9];
+        this.claimId = values[0];
+        this.customerId = values[1];
+        this.employeeId = values[2];
+        this.date = values[3];
+        this.type = values[4];
+        this.description = values[5];
+        this.location = values[6];
+        this.report = values[7];
+        this.compensation = Integer.parseInt(values[8]);
+        this.reviewer = values[9];
+        this.status = values[10];
     }
 
     public Claim(String claimId, String customerId, String employeeId, String date, String type, String description,
