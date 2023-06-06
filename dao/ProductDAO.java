@@ -38,6 +38,12 @@ public class ProductDAO {
         template.executeUpdate(sql, productId);
     }
 
+    public void updateProduct(Product product) {
+        JdbcTemplate template = new JdbcTemplate();
+        String sql = "UPDATE PRODUCTS SET product_name = ?, target = ?, compensation_detail = ?, rate = ?, profit_n_loss_analysis = ?, premiums = ?  where product_id = ?";
+        template.executeUpdate(sql, product.getProductName(), product.getTarget(), product.getCompensationDetail(), product.getRate(), product.getProfitNLossAnalysis(), product.getPremiums()
+        );
+    }
 
     public List<Product> findProducts() {
         RowMapper<Product> rm = generateCommonProductRowMapper();

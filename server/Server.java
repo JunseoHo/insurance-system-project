@@ -42,19 +42,6 @@ public interface Server extends Remote {
     @Contracts 
     public boolean updateProduct(Product product) throws RemoteException;
 
-    @Contracts
-    public List<Product> getProduct() throws RemoteException;
-
-    @Contracts
-    public boolean createProduct(Product product) throws RemoteException;
-
-    @Contracts
-    public List<Contract> getContract() throws RemoteException;
-
-    @Contracts
-    public void setUnderwriting(Contract forUnderWritedContract) throws RemoteException;
-
-
     @Compensation
     Claim getClaim(String claimId) throws RemoteException;
 

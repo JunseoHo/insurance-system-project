@@ -86,14 +86,14 @@ public class EmployeeContractMethod {
 		List<Contract> contracts = new ArrayList<>();
 		System.out.println("***** 인수심사 목록 *****");
 		for (int i = 0; i < temp.size(); i++) {
-			if (!temp.get(i).getIs_underwriting())
-				System.out.println(contracts.get(i).getContract_id());
+			if (!temp.get(i).getUnderwriting())
+				System.out.println(contracts.get(i).getContractId());
 				contracts.add(temp.get(i));
 		}
 		String answer = getInput("인수심사할 계약의 아이디를 입력하여 주십시오", reader);
 		Contract forUnderWritedContract = null;
 		for (int i = 0; i < contracts.size(); i++) {
-			if (answer.equals(contracts.get(i).getContract_id())) {
+			if (answer.equals(contracts.get(i).getContractId())) {
 				forUnderWritedContract = contracts.get(i);
 			}
 		}

@@ -82,23 +82,13 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     ///// contract service
     ///////////////////////////////////////////////////////////////////
     
-    
-    
-    @Contracts
-    public List<Product> getProduct() throws RemoteException {
-    	List<Product> products = productDAO.findProducts();
-    	return products;
-    }
-    @Contracts
-    public boolean createProduct(Product product)throws RemoteException{
-    	return productDAO.addProduct(product);
-    }
+
     
     @Contracts
 	public List<Contract> getContract() throws RemoteException {
     	List<Contract> contracts = contractDAO.findContracts();
     	for(int i=0; i<contracts.size(); i++) {
-    		if(contracts.get(i).getIs_underwriting()) contracts.remove(i);
+    		if(contracts.get(i).getUnderwriting()) contracts.remove(i);
     	}
 		return contracts;
 	}
@@ -126,17 +116,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     public boolean createProduct(Product product) throws RemoteException {
         return productDAO.addProduct(product);
     }
-
-    @Contracts
-    public List<Contract> getContract() throws RemoteException {
-        return contractDAO.findContracts();
-    }
-
-    @Contracts
-    public void setUnderwriting(Contract forUnderWritedContract) throws RemoteException {
-        contractDAO.updateContract(forUnderWritedContract);
-    }
-
 
     ///////////////////////////////////////////////////////////////////
     ///// marketing service
