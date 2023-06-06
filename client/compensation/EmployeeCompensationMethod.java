@@ -56,11 +56,13 @@ public class EmployeeCompensationMethod {
         Claim claim = null;
         while (claim == null) {
             for (Claim element : claims) {
-                System.out.println("[" + element.getClaimId() + "]");
-                System.out.println("청구인 : " + element.getCustomerId() + "님");
-                System.out.println("조사자 : " + element.getEmployeeId() + "님");
-                System.out.println("심사자 : " + element.getReviewer() + "님");
-                System.out.println("상태 : 조사중");
+                if (element.getEmployeeId().equals(employee.getEmployeeId())) {
+                    System.out.println("[" + element.getClaimId() + "]");
+                    System.out.println("청구인 : " + element.getCustomerId() + "님");
+                    System.out.println("조사자 : " + element.getEmployeeId() + "님");
+                    System.out.println("심사자 : " + element.getReviewer() + "님");
+                    System.out.println("상태 : 조사중");
+                }
             }
             String claimId = ClientUtil.getInput("청구 아이디 입력", reader);
             for (Claim element : claims) {
@@ -104,11 +106,13 @@ public class EmployeeCompensationMethod {
         while (claim == null) {
             for (Claim element : claims) {
                 if (element.getStatus().equals(Status.REVIEWING.toString())) {
-                    System.out.println("[" + element.getClaimId() + "]");
-                    System.out.println("청구인 : " + element.getCustomerId() + "님");
-                    System.out.println("조사자 : " + element.getEmployeeId() + "님");
-                    System.out.println("심사자 : " + element.getReviewer() + "님");
-                    System.out.println("상태 : 심사중");
+                    if (element.getReviewer().equals(employee.getEmployeeId())) {
+                        System.out.println("[" + element.getClaimId() + "]");
+                        System.out.println("청구인 : " + element.getCustomerId() + "님");
+                        System.out.println("조사자 : " + element.getEmployeeId() + "님");
+                        System.out.println("심사자 : " + element.getReviewer() + "님");
+                        System.out.println("상태 : 심사중");
+                    }
                 }
             }
             String claimId = ClientUtil.getInput("청구 아이디 입력", reader);

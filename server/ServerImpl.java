@@ -186,7 +186,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         claims = claimDAO.findAll();
         for (Claim claim : claims) {
             if (!claim.getReviewer().equals("NA")) {
-                System.out.println(claim.getReviewer());
                 int count = table.get(claim.getReviewer()) + 1;
                 table.put(claim.getEmployeeId(), count);
             }
