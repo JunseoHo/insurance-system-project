@@ -2,7 +2,6 @@ package common;
 
 
 import annotation.Common;
-
 import java.io.Serializable;
 
 @Common

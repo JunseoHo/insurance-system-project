@@ -16,7 +16,7 @@ public class Employee implements Serializable {
     // insurance info
     private String department;
 
-    public Employee(String employeeId, String name, boolean gender, String birth,
+    public Employee( String employeeId, String name, boolean gender, String birth,
         String department) {
         this.employeeId = employeeId;
         this.name = name;
@@ -24,6 +24,7 @@ public class Employee implements Serializable {
         this.birth = birth;
         this.department = department;
     }
+
     public String getEmployeeId() {
         return employeeId;
     }

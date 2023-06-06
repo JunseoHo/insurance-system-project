@@ -16,6 +16,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +81,40 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     ///////////////////////////////////////////////////////////////////
     ///// contract service
     ///////////////////////////////////////////////////////////////////
+    
+    
+    
+    @Contracts
+    public List<Product> getProduct() throws RemoteException {
+    	List<Product> products = productDAO.findProducts();
+    	return products;
+    }
+    @Contracts
+    public boolean createProduct(Product product)throws RemoteException{
+    	return productDAO.addProduct(product);
+    }
+    
+    @Contracts
+	public List<Contract> getContract() throws RemoteException {
+    	List<Contract> contracts = contractDAO.findContracts();
+    	for(int i=0; i<contracts.size(); i++) {
+    		if(contracts.get(i).getIs_underwriting()) contracts.remove(i);
+    	}
+		return contracts;
+	}
+    
+    @Contracts
+	public void setUnderwriting(Contract forUnderWritedContract) throws RemoteException {
+    	contractDAO.updateContract(forUnderWritedContract);
+	}
+    
+    @Contracts 
+    public boolean updateProduct(Product product) throws RemoteException {
+    	productDAO.updateProduct(product);
+    	return true;
+    }
+
+    
 
     @Contracts
     public List<Product> getProduct() throws RemoteException {
@@ -190,6 +225,5 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         claimDAO.addClaim(newClaim);
         return true;
     }
-
 
 }

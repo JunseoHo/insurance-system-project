@@ -41,3 +41,4 @@ bin/
 global-groovy.log
 soapui-errors.log
 soapui.log
+/contract.class

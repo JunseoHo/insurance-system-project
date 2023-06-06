@@ -6,7 +6,6 @@ import common.Product;
 import contract.Contract;
 import marketing.Board;
 import server.Server;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;

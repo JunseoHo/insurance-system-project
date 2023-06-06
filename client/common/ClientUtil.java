@@ -3,6 +3,7 @@ package client.common;
 import annotation.Common;
 import common.Customer;
 import common.Employee;
+import exception.NotOneOrTwoException;
 import server.Server;
 
 import java.io.BufferedReader;
@@ -52,4 +53,5 @@ public class ClientUtil {
         System.out.print(message + "\n" + ">> ");
         return reader.readLine().trim();
     }
+    
 }

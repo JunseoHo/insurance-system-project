@@ -2,10 +2,7 @@ package dao;
 
 import annotation.DAO;
 import common.Employee;
-
 import java.util.List;
-
-import compensation.Claim;
 import jdbc.JdbcTemplate;
 import jdbc.RowMapper;
 
@@ -25,19 +22,26 @@ public class EmployeeDAO {
         return template.executeQuery(sql, rm, employeeId);
     }
 
+    public Employee findById(String id) {
+        RowMapper<Employee> rm = generateCommonEmployeeRowMapper();
+
+        JdbcTemplate template = new JdbcTemplate();
+        String sql = "select * from EMPLOYEES where employee_id = ?";
+        return template.executeQuery(sql, rm, id);
+    }
     public void removeEmployeeByEmployeeId(String employeeId) {
         JdbcTemplate template = new JdbcTemplate();
         String sql = "delete from EMPLOYEES where employee_id = ?";
         template.executeUpdate(sql, employeeId);
     }
 
-//    public void updateEmployee(Employee employee) {
-//        JdbcTemplate template = new JdbcTemplate();
-//        String sql = "update EMPLOYEES set birth = ?, department = ?, gender = ?, name = ? where id = ?";
-//        template.executeUpdate(sql,
-//                employee.getBirth(), employee.getDepartment(), employee.isGender(), employee.getName(), employee.getId()
-//        );
-//    }
+    public void updateEmployee(Employee employee) {
+        JdbcTemplate template = new JdbcTemplate();
+        String sql = "update EMPLOYEES set birth = ?, department = ?, gender = ?, name = ? where empoyee_id = ?";
+        template.executeUpdate(sql,
+                employee.getBirth(), employee.getDepartment(), employee.isGender(), employee.getName(), employee.getEmployeeId()
+        );
+    }
 
     public List<Employee> findAll() {
         RowMapper<Employee> rm = generateCommonEmployeeRowMapper();

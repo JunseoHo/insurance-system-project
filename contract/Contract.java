@@ -96,5 +96,4 @@ public class Contract implements Serializable{
                 "--------------------------------\n");
         return table.toString();
     }
-
 }
