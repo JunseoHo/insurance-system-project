@@ -42,7 +42,7 @@ public class CustomerCompensationMethod {
         values[1] = customer.getCustomerId();
         values[2] = NA;
         values[3] = getInputDate(reader);
-        values[4] = getInputType(server, customer, "청구유형", reader);
+        values[4] = getInputType(server, customer, "계약상품아이디", reader);
         values[6] = getInputText("사고장소", reader);
         values[5] = getInputText("사고내용", reader);
         values[7] = NA;
@@ -78,7 +78,7 @@ public class CustomerCompensationMethod {
                 List<Contract> contracts = server.getContract();
                 for (Contract contract : contracts) {
                     if (contract.getCustomerId().equals(customer.getCustomerId()) && contract.getUnderwriting()) {
-                        System.out.println(contract.getProductId());
+                        System.out.println(contract.getProductId() + " : " + contract.getTermsOfSubscription());
                     }
                 }
                 if ((value = ClientUtil.getInput(label, reader))

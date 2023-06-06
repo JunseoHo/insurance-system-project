@@ -152,13 +152,12 @@ public class Claim implements Serializable {
     }
 
     public void print() {
-        System.out.println("*** Claim Contents ***");
-        System.out.println("Customer ID : " + customerId);
-        System.out.println("Employee ID : " + employeeId);
-        System.out.println("Date : " + date);
-        System.out.println("Claim type : " + type);
-        System.out.println("Location : " + location);
-        System.out.println("Description : " + description);
+        System.out.println("*** 보험 청구 내역 ***");
+        System.out.println("고객 아이디 : " + customerId);
+        System.out.println("직원 아이디 : " + employeeId);
+        System.out.println("사고 날짜 : " + date);
+        System.out.println("사고 장소 : " + location);
+        System.out.println("사고 내용 : " + description);
     }
 
 }

@@ -23,16 +23,16 @@ public class EmployeeCompensationMethod {
         printCompensationMenu();
         switch (getInput("번호를 선택해주세요.", reader)) {
             case "1" -> {
-                if (employee.getDepartment().equals("investigating")) uploadReport(server, reader, employee);
-                else System.out.println("권한이 없습니다!");
+                uploadReport(server, reader, employee);
+
             }
             case "2" -> {
-                if (employee.getDepartment().equals("supporting")) reviewClaim(server, reader, employee);
-                else System.out.println("권한이 없습니다!");
+                reviewClaim(server, reader, employee);
+
             }
             case "3" -> {
-                if (employee.getDepartment().equals("supporting")) payCompensation(server, reader);
-                else System.out.println("권한이 없습니다!");
+                payCompensation(server, reader);
+
             }
             default -> System.out.println("잘못된 입력입니다.");
         }
@@ -44,8 +44,7 @@ public class EmployeeCompensationMethod {
         System.out.println("2. 보험금 지급 여부를 심사한다.");
         System.out.println("3. 보험금을 지급한다.");
     }
-    
-    
+
 
     @Compensation
     private static void uploadReport(Server server, BufferedReader reader, Employee employee) throws IOException {
@@ -56,7 +55,13 @@ public class EmployeeCompensationMethod {
         }
         Claim claim = null;
         while (claim == null) {
-            for (Claim element : claims) System.out.println(element);
+            for (Claim element : claims) {
+                System.out.println("[" + element.getClaimId() + "]");
+                System.out.println("청구인 : " + element.getCustomerId() + "님");
+                System.out.println("조사자 : " + element.getEmployeeId() + "님");
+                System.out.println("심사자 : " + element.getReviewer() + "님");
+                System.out.println("상태 : 조사중");
+            }
             String claimId = ClientUtil.getInput("청구 아이디 입력", reader);
             for (Claim element : claims) {
                 if (element.getClaimId().equals(claimId))
@@ -98,8 +103,13 @@ public class EmployeeCompensationMethod {
         Claim claim = null;
         while (claim == null) {
             for (Claim element : claims) {
-                if (element.getStatus().equals(Status.REVIEWING.toString()))
-                    System.out.println(element);
+                if (element.getStatus().equals(Status.REVIEWING.toString())) {
+                    System.out.println("[" + element.getClaimId() + "]");
+                    System.out.println("청구인 : " + element.getCustomerId() + "님");
+                    System.out.println("조사자 : " + element.getEmployeeId() + "님");
+                    System.out.println("심사자 : " + element.getReviewer() + "님");
+                    System.out.println("상태 : 심사중");
+                }
             }
             String claimId = ClientUtil.getInput("청구 아이디 입력", reader);
             for (Claim element : claims) {
@@ -123,8 +133,13 @@ public class EmployeeCompensationMethod {
         Claim claim = null;
         while (claim == null) {
             for (Claim element : claims)
-                if (element.getStatus().equals(Status.ACCEPTED.toString()))
-                    System.out.println(element);
+                if (element.getStatus().equals(Status.ACCEPTED.toString())) {
+                    System.out.println("[" + element.getClaimId() + "]");
+                    System.out.println("청구인 : " + element.getCustomerId() + "님");
+                    System.out.println("조사자 : " + element.getEmployeeId() + "님");
+                    System.out.println("심사자 : " + element.getReviewer() + "님");
+                    System.out.println("상태 : 승인됨 (지급대기중)");
+                }
             String claimId = ClientUtil.getInput("청구 아이디 입력", reader);
             for (Claim element : claims) {
                 if (element.getClaimId().equals(claimId))
@@ -153,7 +168,7 @@ public class EmployeeCompensationMethod {
         String value = null;
         while (value == null) {
             try {
-                value = ClientUtil.getInput("Review Result (accepted / rejected)", reader);
+                value = ClientUtil.getInput("심사 결과를 입력해주세요 (accepted / rejected)", reader);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -164,7 +179,6 @@ public class EmployeeCompensationMethod {
         }
         return value;
     }
-    
-    
-    
+
+
 }

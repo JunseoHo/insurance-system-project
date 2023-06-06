@@ -66,9 +66,9 @@ public class Employee implements Serializable {
     }
 
     public void print() {
-        System.out.println("*** Employee Info ***");
-        System.out.println("Employee ID : " + employeeId);
-        System.out.println("Employee Name : " + name);
+        System.out.println("*** 담당 직원 정보 ***");
+        System.out.println("직원 아이디 : " + employeeId);
+        System.out.println("직원 성명 : " + name);
     }
 
 }
