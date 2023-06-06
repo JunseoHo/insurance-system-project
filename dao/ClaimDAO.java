@@ -13,8 +13,8 @@ import jdbc.RowMapper;
 public class ClaimDAO {
     public void addClaim(Claim claim) {
         JdbcTemplate template = new JdbcTemplate();
-        String sql = "insert into CLAIMS (compensation, customer_id, date, description, employee_id, location, report, reviewer, status) values(?,?,?,?,?,?,?,?,?)";
-        template.executeUpdate(sql,
+        String sql = "insert into CLAIMS (claim_id, compensation, customer_id, date, description, employee_id, location, report, reviewer, status) values(?,?,?,?,?,?,?,?,?,?)";
+        template.executeUpdate(sql, claim.getClaimId(),
                 claim.getCompensation(), claim.getCustomerId(), claim.getDate(), claim.getDescription(),
                 claim.getEmployeeId(), claim.getLocation(), claim.getReport(),
                 claim.getReviewer(), claim.getStatus()
@@ -29,14 +29,6 @@ public class ClaimDAO {
         return template.executeQuery(sql, rm, claimId);
     }
 
-//    public Claim findById(Long id) {
-//        RowMapper<Claim> rm = generateCommonClaimRowMapper();
-//
-//        JdbcTemplate template = new JdbcTemplate();
-//        String sql = "select * from CLAIMS where id = ?";
-//        return template.executeQuery(sql, rm, id);
-//    }
-
     public void removeClaimByClaimId(String claimId) {
         JdbcTemplate template = new JdbcTemplate();
         String sql = "delete from CLAIMS where claim_id = ?";
@@ -49,7 +41,7 @@ public class ClaimDAO {
         template.executeUpdate(sql,
                 claim.getCustomerId(), claim.getEmployeeId(), claim.getDate(),
                 claim.getType(), claim.getDescription(), claim.getLocation(),
-                claim.getStatus(), claim.getReport(), claim.getCompensation(),
+                claim.getReport(), claim.getCompensation(),
                 claim.getReviewer(), claim.getStatus(), claim.getClaimId()
         );
     }

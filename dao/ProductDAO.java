@@ -9,77 +9,58 @@ import jdbc.RowMapper;
 
 @DAO
 public class ProductDAO {
-	public boolean addProduct(Product product) {
-		JdbcTemplate template = new JdbcTemplate();
-		String sql = "insert into products (product_id, product_name, target, compensation_detail, rate, profit_n_loss_analysis, premiums) values(?, ?,?,?,?,?,?)";
-		template.executeUpdate(sql,
-				product.getId(),
-				product.getProductName(),
-				product.getTarget(),
-				product.getCompensationDetail(),
-				product.getRate(),
-				product.getProfitNLossAnalysis(),
-				product.getPremiums()
-				);
-		return true;
-	    }
+    public boolean addProduct(Product product) {
+        JdbcTemplate template = new JdbcTemplate();
+        String sql = "INSERT INTO PRODUCTS (product_id, name, target, compensation_detail, rate, profit_n_loss_analysis, premiums) values(?, ?,?,?,?,?,?)";
+        template.executeUpdate(sql,
+                product.getId(),
+                product.getProductName(),
+                product.getTarget(),
+                product.getCompensationDetail(),
+                product.getRate(),
+                product.getProfitNLossAnalysis(),
+                product.getPremiums()
+        );
+        return true;
+    }
 
-	public Product findById(int id) {
-		RowMapper<Product> rm = generateCommonProductRowMapper();
-		JdbcTemplate template = new JdbcTemplate();
-		String sql = "select * from PRODUCTS where id = ?";
-		return template.executeQuery(sql, rm, id);
-	}
+    public Product findByProductId(String productId) {
+        RowMapper<Product> rm = generateCommonProductRowMapper();
 
-	public Product findByProductId(String productId) {
-		RowMapper<Product> rm = generateCommonProductRowMapper();
+        JdbcTemplate template = new JdbcTemplate();
+        String sql = "SELECT * FROM PRODUCTS WHERE product_id = ?";
+        return template.executeQuery(sql, rm, productId);
+    }
 
-		JdbcTemplate template = new JdbcTemplate();
-		String sql = "select * from Products where product_id = ?";
-		return template.executeQuery(sql, rm, productId);
-	}
+    public void removeProductByProductId(String productId) {
+        JdbcTemplate template = new JdbcTemplate();
+        String sql = "DELETE FROM PRODUCTS WHERE product_id = ?";
+        template.executeUpdate(sql, productId);
+    }
 
-	public void removeProductByProductId(String productId) {
-		JdbcTemplate template = new JdbcTemplate();
-		String sql = "delete from products where product_id = ?";
-		template.executeUpdate(sql, productId);
-	}
 
-	public void removeProductById(Long id) {
-		JdbcTemplate template = new JdbcTemplate();
-		String sql = "delete from products where id = ?";
-		template.executeUpdate(sql, id);
-	}
+    public List<Product> findProducts() {
+        RowMapper<Product> rm = generateCommonProductRowMapper();
 
-	public void updateProduct(Product product) {
-	        JdbcTemplate template = new JdbcTemplate();
-	        String sql = "UPDATE PRODUCTS SET product_name = ?, target = ?, compensation_detail = ?, rate = ?, profit_n_loss_analysis = ?, premiums = ?  where product_id = ?";
-	        template.executeUpdate(sql, product.getProductName(), product.getTarget(), product.getCompensationDetail(), product.getRate(), product.getProfitNLossAnalysis(), product.getPremiums()  
-	        );
-	    }
+        JdbcTemplate template = new JdbcTemplate();
+        String sql = "SELECT * FROM PRODUCTS";
+        return template.list(sql, rm);
+    }
 
-	public List<Product> findProducts() {
-		RowMapper<Product> rm = generateCommonProductRowMapper();
+    private RowMapper<Product> generateCommonProductRowMapper() {
+        return rs ->
+                new Product(rs.getString("product_id"),
+                        rs.getString("name"),
+                        rs.getString("target"),
+                        rs.getString("compensation_detail"),
+                        rs.getInt("rate"),
+                        rs.getString("profit_n_loss_analysis"),
+                        rs.getInt("premiums")
+                );
+    }
 
-		JdbcTemplate template = new JdbcTemplate();
-		String sql = "select * from products";
-		return template.list(sql, rm);
-	}
+    private List<Product> findAll() {
 
-	private RowMapper<Product> generateCommonProductRowMapper() {
-		return rs ->
-		new Product(rs.getString("product_id"),
-		rs.getString("product_name"),
-		rs.getString("target"),
-		rs.getString("compensation_detail"),
-		rs.getInt("rate"),
-		rs.getString("profit_n_loss_analysis"),
-		rs.getInt("premiums")
-		);
-	}
-	
-	private List<Product> findAll() {
-		
-		return null;
-	}
+        return null;
+    }
 }

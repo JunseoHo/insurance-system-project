@@ -7,7 +7,6 @@ import client.compensation.EmployeeCompensationMethod;
 import client.contract.EmployeeContractMethod;
 import client.marketing.EmployeeMarketingMethod;
 import common.Employee;
-import exception.NotOneOrTwoException;
 import server.Server;
 
 import java.io.BufferedReader;
@@ -26,6 +25,7 @@ public class EmployeeClient {
 
 
     public static void main(String[] args) throws IOException {
+        System.setProperty("java.rmi.server.hostname", "localhost");
         if ((server = connect(HOST, PORT, NAME)) == null) return;
         if ((employee = employeeLogin(server, reader)) == null) return;
         System.out.println("로그인에 성공했습니다.");

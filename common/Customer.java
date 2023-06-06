@@ -8,7 +8,6 @@ import java.io.Serializable;
 public class Customer implements Serializable {
 
     // ids
-    private Long id;
     private String customerId;
     // personal info
     private String name;
@@ -20,10 +19,9 @@ public class Customer implements Serializable {
     private String familyHistory;
     private String healthExaminationRecord;
 
-    public Customer(Long id, String customerId, String name, boolean gender, String birth,
+    public Customer(String customerId, String name, boolean gender, String birth,
         String job,
         String bankAccount, String familyHistory, String healthExaminationRecord) {
-        this.id = id;
         this.customerId = customerId;
         this.name = name;
         this.gender = gender;
@@ -34,9 +32,6 @@ public class Customer implements Serializable {
         this.healthExaminationRecord = healthExaminationRecord;
     }
 
-    public Long getId() {
-        return id;
-    }
     public String getCustomerId() {
         return customerId;
     }
