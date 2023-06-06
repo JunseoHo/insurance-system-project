@@ -34,8 +34,7 @@ public class EmployeeContractMethod {
         }
     }
 
-    private static void manageClaimPayoutInitial(Server server, BufferedReader reader)
-            throws IOException, RemoteException {
+    private static void manageClaimPayoutInitial(Server server, BufferedReader reader) throws IOException, RemoteException {
         showClaimPayoutMenu();
         switch (getInput("번호를 선택해주세요.", reader)) {
             case "1" -> ListClaimPayout(server, reader);
@@ -89,7 +88,8 @@ public class EmployeeContractMethod {
         System.out.println("***** 인수심사 목록 *****");
         for (int i = 0; i < temp.size(); i++) {
             if (!temp.get(i).getUnderwriting()) {
-                System.out.println(temp.get(i).getContractId());
+                Contract contract = temp.get(i);
+                System.out.println("[" + contract.getContractId() + "] " + contract.getProductId() + "상품에 대한 " + contract.getCustomerId() + "님의 계약입니다.");
                 contracts.add(temp.get(i));
             }
         }
@@ -129,8 +129,7 @@ public class EmployeeContractMethod {
             System.out.println("수집된 요율(저장한 요율이 있다면 저장이라고 써 주십시오) :  ");
             int value = 0;
             String answer = reader.readLine().trim();
-            if (answer.equals("저장"))
-                values[4] = "" + rate;
+            if (answer.equals("저장")) values[4] = "" + rate;
             else {
                 try {
                     value = Integer.parseInt(answer);
@@ -152,8 +151,7 @@ public class EmployeeContractMethod {
 
             String answerFinal = getInputYesOrNo("****상품을 수정하시겠습니까? (Y/N)****", reader);
             if (answerFinal.equalsIgnoreCase("y")) {
-                server.updateProduct(new Product(productId, values[1], values[2], values[3],
-                        Integer.parseInt(values[4]), values[5], Integer.parseInt(values[6])));
+                server.updateProduct(new Product(productId, values[1], values[2], values[3], Integer.parseInt(values[4]), values[5], Integer.parseInt(values[6])));
 
             } else if (answerFinal.equalsIgnoreCase("n")) {
                 System.out.println("***** 상품 개발이 취소되었습니다. *****");
@@ -181,8 +179,7 @@ public class EmployeeContractMethod {
         input[3] = getInputNum("상대적으로 위험한 직업을 가진 고객이 대상입니까?\n1. 예 2.아니오", reader);
         double temp = 0;
         for (int i = 0; i < input.length; i++) {
-            if (Integer.parseInt(input[i]) == 1)
-                temp += 1;
+            if (Integer.parseInt(input[i]) == 1) temp += 1;
         }
         double resultRate = (100 + (temp * 25)) / 100;
         System.out.println("해당 상품의 요율은 " + resultRate + "배 입니다.");
@@ -208,8 +205,7 @@ public class EmployeeContractMethod {
             System.out.println("수집된 요율(저장한 요율이 있다면 저장이라고 써 주십시오) :  ");
             int value = 0;
             String answer = reader.readLine().trim();
-            if (answer.equals("저장"))
-                values[4] = "" + rate;
+            if (answer.equals("저장")) values[4] = "" + rate;
             else {
                 try {
                     value = Integer.parseInt(answer);
@@ -232,8 +228,7 @@ public class EmployeeContractMethod {
             String answerFinal = getInputYesOrNo("****상품을 업로드 하시겠습니까? (Y/N)****", reader);
             if (answerFinal.equalsIgnoreCase("y")) {
 //				System.out.println(values[4]);
-                if (server.createProduct(new Product(values[0], values[1], values[2], values[3],
-                        Integer.parseInt(values[4]), values[5], Integer.parseInt(values[6]))))
+                if (server.createProduct(new Product(values[0], values[1], values[2], values[3], Integer.parseInt(values[4]), values[5], Integer.parseInt(values[6]))))
                     System.out.println("***** 업로드 완료 *****");
             } else if (answerFinal.equalsIgnoreCase("n")) {
                 System.out.println("***** 상품 개발이 취소되었습니다. *****");
@@ -256,12 +251,9 @@ public class EmployeeContractMethod {
 
     public static String toTableSet() {
         StringBuilder table = new StringBuilder();
-        table.append(
-                "--------------------------------------------------------------------------------------------------------------------\n");
-        table.append(String.format("| %-10s | %-15s | %-10s | %-20s | %-5s | %-25s | %-10s| \n", "Product ID",
-                "Product Name", "Target", "Compensation Detail", "rate", "profit n loss analysis", "premiums"));
-        table.append(
-                "--------------------------------------------------------------------------------------------------------------------\n");
+        table.append("--------------------------------------------------------------------------------------------------------------------\n");
+        table.append(String.format("| %-10s | %-15s | %-10s | %-20s | %-5s | %-25s | %-10s| \n", "Product ID", "Product Name", "Target", "Compensation Detail", "rate", "profit n loss analysis", "premiums"));
+        table.append("--------------------------------------------------------------------------------------------------------------------\n");
         return table.toString();
     }
 
@@ -276,8 +268,7 @@ public class EmployeeContractMethod {
     public static String getInputNum(String message, BufferedReader reader) throws IOException {
         System.out.print(message + "\n" + ">> ");
         String a = reader.readLine().trim();
-        if (a.equals("1") || a.equals("2"))
-            return a;
+        if (a.equals("1") || a.equals("2")) return a;
         else {
             System.out.println("*** 잘못된 입력입니다. ***");
             return getInputNum(message, reader);
@@ -299,8 +290,7 @@ public class EmployeeContractMethod {
     public static String getInputYesOrNo(String message, BufferedReader reader) throws IOException {
         System.out.print(message + "\n" + ">> ");
         String a = reader.readLine().trim();
-        if (a.equalsIgnoreCase("y") || a.equalsIgnoreCase("n"))
-            return a;
+        if (a.equalsIgnoreCase("y") || a.equalsIgnoreCase("n")) return a;
         else {
             System.out.println("*** 잘못된 입력입니다. ***");
             return getInputYesOrNo(message, reader);
