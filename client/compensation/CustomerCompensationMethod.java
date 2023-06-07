@@ -2,6 +2,7 @@ package client.compensation;
 
 import annotation.Compensation;
 import client.common.ClientUtil;
+import common.Employee;
 import compensation.Claim;
 import compensation.Status;
 import common.Customer;
@@ -53,6 +54,10 @@ public class CustomerCompensationMethod {
             Claim claim = server.getClaim(values[0]);
             claim.print();
             server.getEmployee(claim.getEmployeeId()).print();
+            Employee reviewer = server.getEmployee(claim.getReviewer());
+            System.out.println("*** 심사 직원 정보 ***");
+            System.out.println("직원 아이디 : " + reviewer.getEmployeeId());
+            System.out.println("직원 성명 : " + reviewer.getName());
             getInput("보험금 청구가 완료되었습니다. (아무 키나 입력하여 메인화면으로)", reader);
         } else System.out.println("보험금 청구에 실패했습니다.");
     }

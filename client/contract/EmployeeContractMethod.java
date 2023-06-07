@@ -57,14 +57,23 @@ public class EmployeeContractMethod {
         } else {
             int sum = 0;
             int num = 0;
+            int max = claims.get(0).getCompensation();
+            int min = claims.get(0).getCompensation();
             for (int i = 0; i < claims.size(); i++) {
+                if (max < claims.get(i).getCompensation()) max = claims.get(i).getCompensation();
+                if (min > claims.get(i).getCompensation()) min = claims.get(i).getCompensation();
                 sum += claims.get(i).getCompensation();
                 num++;
             }
             int avg = sum / num;
-            System.out.println("대기 인원 : " + num + "명");
-            System.out.println("총 제지급금 금액 : " + sum + "원");
-            System.out.println("제지급금 평균 : " + avg + "원");
+            StringBuilder table = new StringBuilder();
+            table.append(" ——————————————————————————————————\n");
+            table.append(String.format("| %-9s|%-12s|%-13s|%-10s|%-10s|\n", "대기 인원", "총 제지급금 금액", "제지급금 평균", "최대 값", "최소 값"));
+            table.append(" ——————————————————————————————————\n");
+            table.append(String.format("| %-10s|%-15s|%-15s|%-11s|%-11s|\n", num + " 명", sum + " 원", avg + " 원", max + " 원", min + " 원"));
+            table.append(" ——————————————————————————————————\n");
+
+            System.out.print(table.toString());
         }
     }
 
@@ -89,7 +98,7 @@ public class EmployeeContractMethod {
         for (int i = 0; i < temp.size(); i++) {
             if (!temp.get(i).getUnderwriting()) {
                 Contract contract = temp.get(i);
-                System.out.println("[" + contract.getContractId() + "] " + contract.getProductId() + "상품에 대한 " + contract.getCustomerId() + "님의 계약입니다.");
+                System.out.println("[" + contract.getContractId() + "] " + contract.getProductId() + "상품에 대한 " + contract.getCustomerId() + "님의 계약 신청입니다.");
                 contracts.add(temp.get(i));
             }
         }
@@ -100,7 +109,7 @@ public class EmployeeContractMethod {
                 forUnderWritedContract = contracts.get(i);
             }
         }
-        int answerForFee = Integer.parseInt(getInput("보험료를 입력하여 주십시오.", reader));
+        int answerForFee = Integer.parseInt(getInput("최종 보험료를 입력하여 주십시오.", reader));
         forUnderWritedContract.setPremiums(answerForFee);
         server.setUnderwriting(forUnderWritedContract);
         System.out.println("저장 완료");
